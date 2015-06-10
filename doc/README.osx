@@ -1,0 +1,22 @@
+8/4/2014 -- Jon Scholz
+
+Notes on Building reviz on osx
+    - cmake stuff
+      + removed Qt3Support
+      + added flag for the XInitThreads library (X11 on mac)
+
+    - code stuff
+      + updated the mac method for getting the abstime (include/gripTime.h)
+
+      + fixed an implicit cast issue in the tr(<strings>) calls throughout.  QT 4.8.6 is picky
+        about converting strings to const char*, so any call to tr without a string litteral
+        (e.g. tr("foo" + variable)) needs to be wrapped with a qPrintable
+        (e.g. tr(qPrintable("foo" + variable))).  
+
+    - build environment
+      + os x mavericks 10.9.4
+
+     installed depenencies using homebrew:
+    	* open-scene-graph (version 3.2.0)
+     	* boost (version 1.55.0)
+     	* qt (version 4.8.6)

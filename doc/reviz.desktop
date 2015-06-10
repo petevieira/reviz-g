@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=ReViz
+Exec=/usr/local/bin/reviz
+Icon=/usr/share/icons/reviz-icon.png
+Type=Application
+Categories=Development;

@@ -11,7 +11,6 @@ endif()
 
 if(APPLE)
     set(X11_THREADS_LIB "X11")
-
     # set X11 include path for Mac OS X 
     include_directories(/opt/X11/include)
     link_directories(/opt/X11/lib)
@@ -19,7 +18,7 @@ else(APPLE)
     # linux uses rt for XInitThreads()
     set(X11_THREADS_LIB "rt")
 endif()
-    set(X11_THREADS_LIB "rt")
+
 #-----------------------------------------------
 #                COMPILE SETTINGS
 #-----------------------------------------------

@@ -1,3 +1,13 @@
+/**
+ * Copyright (C) 2012, California Institute of Technology.
+ * All Rights Reserved. U.S. Government Sponsorship Acknowledged.
+ * Any commercial use must be negotiated with the Office of
+ * Technology Transfer at the California Institute of Technology.
+ *
+ * Author: Peter Vieira <Peter.Vieira@jpl.nasa.gov>
+ * Date: June 2015
+ */
+
 #include <QApplication>
 #include "GripMainWindow.h"
 #include <X11/Xlib.h>

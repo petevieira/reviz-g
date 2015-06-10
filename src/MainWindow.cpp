@@ -27,13 +27,14 @@
 #include "icons/topView.xpm"
 #include "icons/rightSideView.xpm"
 
-MainWindow::MainWindow() : LAST_LOAD_FILE(QDir::homePath() + "/.griplastload")
+MainWindow::MainWindow() : LAST_LOAD_FILE(QDir::homePath() + "/.revizlastload")
 {
-    configFilePath = new QString(QDir::homePath() + QString("/default.gripconfig"));
+    configFilePath = new QString(QDir::homePath() + QString("/default.revizconfig"));
     createActions();
     createMenus();
-    setWindowTitle(tr("Grip"));
+    setWindowTitle(tr("Remote Visualizer"));
     resize(860, 700);
+    this->statusBar()->setSizeGripEnabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -402,7 +403,7 @@ void MainWindow::saveNewWorkspace()
     QStringList fileNames; //stores the entire path of the file that it attempts to open
 
     QStringList filters; //setting file filters
-    filters << "Grip configuration files (*.gripconfig)"
+    filters << "ReViz configuration files (*.revizconfig)"
             << "Any files (*)";
 
     //initializing the File dialog box
@@ -428,7 +429,7 @@ void MainWindow::loadWorkspace(std::string workspaceFile)
 
     if (workspaceFile.empty()) {
         QStringList filters; //setting file filters
-        filters << "Grip configuration files (*.gripconfig)"
+        filters << "ReViz configuration files (*.revizconfig)"
                 << "Any files (*)";
 
         //initializing the File dialog box

@@ -10,6 +10,7 @@
 
 #include <QApplication>
 #include "GripMainWindow.h"
+#include <QTabWidget>
 #include <X11/Xlib.h>
 
 /**
@@ -70,5 +71,12 @@ int main(int argc, char *argv[])
     GripMainWindow window(debug, sceneFilePath, configFilePath);
     window.Toolbar();
     window.show();
+    QTabWidget *tab = new QTabWidget();
+    tab->addTab(&window, QString("main"));
+
+    QWidget *launchTab = new QTabWidget();
+    tab->addTab(launchTab, QString("launch"));
+
+    tab->show();
     return app.exec();
 }

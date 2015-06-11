@@ -70,7 +70,7 @@ GripMainWindow::GripMainWindow(bool debug, std::string sceneFile, std::string co
     if (!sceneFile.empty())
         this->doLoad(sceneFile);
     xga1024x768();
-
+    // this->playbackWidget->setStyleSheet("background: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #766587, stop: 1 #3c3742);");
 }
 
 GripMainWindow::~GripMainWindow() {}

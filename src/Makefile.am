@@ -6,10 +6,11 @@ lib_LTLIBRARIES = libmainwindow.la
 AUTOMAKE_OPTIONS = subdir-objects
 
 AM_CFLAGS   = 		-Werror \
-									-D_GNU_SOURCE \
-									-DQT_SHARED
+									-D_GNU_SOURCE
 
-AM_CPPFLAGS = 		-Werror \
+AM_CXXFLAGS = 		-Werror \
+									-D_GNU_SOURCE \
+									-DQT_SHARED \
 									-I$(top_srcdir)/osgGolems \
 									-I$(top_srcdir)/qtWidgets/ui \
 									-I$(top_srcdir)/qtWidgets \
@@ -41,11 +42,11 @@ libmainwindow_la_LIBADD = \
 													$(GUI_LIBS) \
 													$(OSG_LIBS)
 
-libmainwindow_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -export-dynamic
+libmainwindow_la_LIBFLAGS = -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x
 
 libmainwindow_la_SOURCES =	\
-														moc_MainWindow.cc MainWindow.cpp \
 														GripMainWindow.cpp \
+														moc_MainWindow.cc MainWindow.cpp \
 														GripTimeslice.cpp
 
 moc_MainWindow.cc:	$(top_srcdir)/include/MainWindow.h

@@ -77,16 +77,15 @@ GripMainWindow::GripMainWindow(bool debug, std::string sceneFile, std::string co
 
 GripMainWindow::~GripMainWindow()
 {
-    delete pluginList;
-    delete pluginMenu;
-    delete playbackWidget;
-    // delete timeline;
-    delete pluginPathList;
-    delete sceneFilePath;
-    delete inspectorTab;
-    delete visualizationTab;
-    delete sceneFilePath;
-    delete viewWidget;
+    // delete pluginList;
+    // delete pluginMenu;
+    // delete playbackWidget;
+    // delete pluginPathList;
+    // delete sceneFilePath;
+    // delete inspectorTab;
+    // delete visualizationTab;
+    // delete sceneFilePath;
+    // delete viewWidget;
     // delete treeviewer;
 }
 

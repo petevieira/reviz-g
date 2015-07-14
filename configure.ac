@@ -111,6 +111,11 @@ AC_CHECK_LIB(QtCore, main,
              HAVE_GUI_LIBS="no"
              AC_MSG_WARN([did not find libQtCore]))
 
+AC_CHECK_LIB(QtXml, main,
+             GUI_LIBS="$GUI_LIBS -lQtXml",
+             HAVE_GUI_LIBS="no"
+             AC_MSG_WARN([did not find libQtXml]))
+
 AC_CHECK_LIB(GLU, main,
              GUI_LIBS="$GUI_LIBS -lGLU",
              HAVE_GUI_LIBS="no"

@@ -9,6 +9,7 @@ AM_CFLAGS   = 		-Werror \
 AM_CPPFLAGS = 		-Werror \
 									-I$(top_srcdir)/osgGolems \
 									-Iui \
+									-I. \
 									-I/usr/include/qt4 \
 									-I/usr/include/qt4/QtXml \
 									-I/usr/include/qt4/QtOpenGL \
@@ -16,14 +17,18 @@ AM_CPPFLAGS = 		-Werror \
 
 
 libqtWidgets_la_SOURCES = 	\
-													moc_TreeView.cc ui_TreeView.h \
-													moc_InspectorTab.cc ui_InspectorTab.h \
-													moc_VisualizationTab.cc ui_VisualizationTab.h \
-													moc_PlaybackWidget.cc ui_PlaybackWidget.h
+													moc_TreeView.cc ui_TreeView.h src/TreeView.cpp \
+													moc_InspectorTab.cc ui_InspectorTab.h src/InspectorTab.cpp \
+													moc_VisualizationTab.cc ui_VisualizationTab.h src/VisualizationTab.cpp \
+													moc_PlaybackWidget.cc ui_PlaybackWidget.h src/PlaybackWidget.cpp \
+													moc_DoubleSlider.cc src/DoubleSlider.cpp
 
-libqtWidgets_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -export-dynamic
+libqtWidgets_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -export-dynamic -soname
 
 moc_%.cc:	%.h ui_%.h
+					@MOC@ -o $@ $<
+
+moc_DoubleSlider.cc: DoubleSlider.h
 					@MOC@ -o $@ $<
 
 ui_%.h:	ui/%.ui

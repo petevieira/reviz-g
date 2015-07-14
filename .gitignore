@@ -34,3 +34,5 @@ Makefile.in
 ui_*.h
 .dirstamp
 stamp-h1
+*.m4
+src/reviz

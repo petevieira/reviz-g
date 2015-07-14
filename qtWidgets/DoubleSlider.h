@@ -29,6 +29,8 @@ class DoubleSlider : public QSlider
 
 public:
          DoubleSlider(QWidget *parent = 0);
+         ~DoubleSlider();
+         bool event(QEvent *event);
          double changeTOdouble(int intvalue);
          int changeTOinteger(double doublevalue);
          double getdsValue(); //get doubleslider value

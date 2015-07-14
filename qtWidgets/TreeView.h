@@ -18,7 +18,7 @@
 #define TREE_VIEW_H
 
 // Qt includes
-#include <QDockWidget>
+#include <QtGui/QDockWidget>
 
 // Local includes
 #include "ui_TreeView.h"

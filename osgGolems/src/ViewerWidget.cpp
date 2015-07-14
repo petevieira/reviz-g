@@ -8,6 +8,13 @@
  * Date: June 2015
  */
 
+// Standard includes
+//  #include <cstdio>
+//  #include <istream>
+//  #include <iostream>
+//  #include <fstream>
+// #include <string>
+
 // Local includes
 #include "ViewerWidget.h"
 #include "osgUtils.h"
@@ -193,15 +200,15 @@ osg::Matrix ViewerWidget::getCameraMatrix(uint viewNum)
 void ViewerWidget::addNodeToScene(osg::Node* node, uint viewNum)
 {
     if (node != node || !(viewNumIsValid(viewNum))) {
-        std::cerr << "Error! Invalid node" << std::endl;
+        // std::cerr << "Error! Invalid node" << std::endl;
         return;
     }
 
     osg::Group* scene = this->getView(viewNum)->getSceneData()->asGroup();
 
     if (scene != scene) {
-        std::cerr << "Error! Can not convert from osg::Node to osg::Group."
-                  << std::endl;
+        // std::cerr << "Error! Can not convert from osg::Node to osg::Group."
+                  // << std::endl;
     } else {
         scene->addChild(node);
     }
@@ -210,14 +217,14 @@ void ViewerWidget::addNodeToScene(osg::Node* node, uint viewNum)
 void ViewerWidget::removeNodeFromScene(osg::Node* node, uint viewNum)
 {
     if (node != node || !(viewNumIsValid(viewNum))) {
-        std::cerr << "Error! Invalid node" << std::endl;
+        // std::cerr << "Error! Invalid node" << std::endl;
         return;
     }
 
     osg::Group* scene = this->getView(viewNum)->getSceneData()->asGroup();
     if (scene != scene) {
-        std::cerr << "Error! Can not convert from osg::Node to osg::Group."
-                  << std::endl;
+        // std::cerr << "Error! Can not convert from osg::Node to osg::Group."
+                  // << std::endl;
     } else {
         scene->removeChild(node);
     }

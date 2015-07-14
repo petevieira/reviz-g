@@ -8,9 +8,9 @@
  * Date: June 2015
  */
 
-#include <QApplication>
-#include "GripMainWindow.h"
-#include <QTabWidget>
+#include <QtGui/QApplication>
+#include "include/GripMainWindow.h"
+#include <QtGui/QTabWidget>
 #include <X11/Xlib.h>
 
 /**
@@ -71,10 +71,13 @@ int main(int argc, char *argv[])
     GripMainWindow window(debug, sceneFilePath, configFilePath);
     window.Toolbar();
     window.show();
-    QTabWidget *tab = new QTabWidget();
-    tab->addTab(&window, QString("main"));
 
+    // Create tabs
+    QTabWidget *tab = new QTabWidget();
     QWidget *launchTab = new QTabWidget();
+
+    // Add tabs to main window
+    tab->addTab(&window, QString("main"));
     tab->addTab(launchTab, QString("launch"));
 
     tab->show();

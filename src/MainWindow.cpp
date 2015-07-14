@@ -8,13 +8,13 @@
  * Date: June 2015
  */
 
-#include <QtGui>
+#include <QtGui/QtGui>
 #include <iostream>
 #include <cstdio>
 #include <fstream>
-#include <QPluginLoader>
+#include <QtCore/QPluginLoader>
 
-#include "MainWindow.h"
+#include "include/MainWindow.h"
 
 ///including the icons for the toolbar
 #include "icons/open.xpm"
@@ -39,139 +39,23 @@ MainWindow::MainWindow() : LAST_LOAD_FILE(QDir::homePath() + "/.revizlastload")
 
 MainWindow::~MainWindow()
 {
+    delete configFilePath;
+    delete loadSceneAct;
+    delete quickLoadAct;
+    delete saveSceneAct;
+    delete loadPluginFileAct;
+    delete loadPluginDirAct;
+    delete saveWorkspaceConfigurationAct;
+    delete saveNewWorkspaceConfigurationAct;
+    delete loadWorkspaceConfigurationAct;
+    delete closeSceneAct;
+    delete exitAct;
+    delete frontAct;
+    delete topAct;
+    delete sideAct;
+    delete startSimulationAct;
+    delete stopSimulationAct;
 }
-
-void MainWindow::Toolbar()
-{
-    QPixmap openIcon((const char**) open_xpm);
-    QPixmap redoIcon((const char**) redo_xpm);
-    QPixmap simulateIcon((const char**) simulate_xpm);
-    QPixmap stopIcon((const char**) stop_xpm);
-    QPixmap cameraIcon((const char**) camera_xpm);
-    QPixmap filmIcon((const char**) film_xpm);
-    QPixmap frontViewIcon((const char**) frontView_xpm);
-    QPixmap topViewIcon((const char**) topView_xpm);
-    QPixmap rightSideViewIcon((const char**) rightSideView_xpm);
-
-    toolbar = addToolBar("main toolbar");
-    QAction *open = toolbar->addAction(QIcon(openIcon), "Open Scene (Ctrl + O)");
-    QAction *redo = toolbar->addAction(QIcon(redoIcon), "Load last viewed scene (Ctrl + Shift + Q)");
-    toolbar->addSeparator();
-    QAction *simulate = toolbar->addAction(QIcon(simulateIcon), "Start Simulation (Ctrl + R");
-    QAction *stop = toolbar->addAction(QIcon(stopIcon), "Stop Simulation (Ctrl + C");
-    stop->setVisible(false);
-    toolbar->addSeparator();
-    QAction *camera = toolbar->addAction(QIcon(cameraIcon), "Export screenshot");
-    QAction *film = toolbar->addAction(QIcon(filmIcon), "Export film sequence");
-    toolbar->addSeparator();
-    QAction *front = toolbar->addAction(QIcon(frontViewIcon), "View scene from front");
-    QAction *top = toolbar->addAction(QIcon(topViewIcon), "View scene from top");
-    QAction *rightSide = toolbar->addAction(QIcon(rightSideViewIcon), "View scene from right");
-
-    connect(open, SIGNAL(triggered()), this, SLOT(loadScene()));
-    connect(redo, SIGNAL(triggered()), this, SLOT(quickLoad()));
-    connect(simulate, SIGNAL(triggered()), this, SLOT(startSimulation()));
-    connect(stop, SIGNAL(triggered()), this, SLOT(stopSimulation()));
-    connect(camera, SIGNAL(triggered()), this, SLOT(camera()));
-    connect(film, SIGNAL(triggered()), this, SLOT(film()));
-    connect(front, SIGNAL(triggered()), this, SLOT(front()));
-    connect(top, SIGNAL(triggered()), this, SLOT(top()));
-    connect(rightSide, SIGNAL(triggered()), this, SLOT(side()));
-}
-
-QToolBar* MainWindow::_getToolBar()
-{
-    return toolbar;
-}
-
-void MainWindow::slotSetStatusBarMessage(QString msg)
-{
-    this->statusBar()->showMessage(msg);
-}
-
-void MainWindow::loadPluginFileWithDialog()
-{
-    if (true) {
-        // Set file extension filters
-        QStringList filters;
-        filters << "Shared library (*.so)";
-
-        QFileDialog dialog(this);
-        dialog.setNameFilters(filters);
-        dialog.setAcceptMode(QFileDialog::AcceptOpen);
-        dialog.setFileMode(QFileDialog::ExistingFile);
-        if (dialog.exec()) {
-            QString pluginPath = dialog.selectedFiles().at(0);
-            std::cerr << "pluginPath: " << pluginPath.toStdString() << std::endl;
-            slotSetStatusBarMessage(tr(qPrintable("plugin file: " + pluginPath)));
-            loadPluginFile(pluginPath);
-        } else {
-            slotSetStatusBarMessage(tr("Didn't find plugin directory"));
-        }
-    }
-}
-
-void MainWindow::loadPluginDirWithDialog()
-{
-    if (true) {
-        // Set file extension filters
-        QStringList filters;
-        filters << "Shared library (*.so)";
-
-        QFileDialog dialog(this);
-        dialog.setNameFilters(filters);
-        dialog.setAcceptMode(QFileDialog::AcceptOpen);
-        dialog.setFileMode(QFileDialog::Directory);
-        if (dialog.exec()) {
-            QDir pluginsDir = QDir(dialog.selectedFiles().at(0));
-            std::cerr << "pluginDir: " << pluginsDir.path().toStdString() << std::endl;
-            slotSetStatusBarMessage(tr(qPrintable("plugin Dir: " + pluginsDir.path())));
-            loadPluginDirectory(pluginsDir);
-        } else {
-            slotSetStatusBarMessage(tr("Didn't find plugin directory"));
-        }
-    }
-}
-
-void MainWindow::loadScene()
-{
-    QStringList fileNames; //stores the entire path of the file that it attempts to open
-
-    QStringList filters; //setting file filters
-    filters << "Scene files (*.urdf *.sdf *.world)"
-            << "Any files (*)";
-
-    //initializing the File dialog box
-    //the static QFileDialog does not seem to be working correctly in Ubuntu 12.04 with unity.
-    //as per the documentation it may work correctly with gnome
-    //the method used below should work correctly on all desktops and is supposedly more powerful
-    QFileDialog dialog(this);
-    dialog.setNameFilters(filters);
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    if (dialog.exec())
-        fileNames = dialog.selectedFiles();
-
-    if (!fileNames.isEmpty()) {
-        std::cerr << "Attempting to open the following world file: " << fileNames.front().toStdString() << std::endl;
-        doLoad(fileNames.front().toStdString());
-    }
-}
-
-void MainWindow::quickLoad()
-{
-    QFile file(LAST_LOAD_FILE);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        slotSetStatusBarMessage("No saved load file");
-        return;
-    }
-
-    QTextStream in(&file);
-    QString line = in.readLine();
-    doLoad(line.toStdString());
-}
-
-void MainWindow::about(){}
 
 void MainWindow::createActions()
 {
@@ -180,7 +64,6 @@ void MainWindow::createActions()
     loadSceneAct->setShortcut(Qt::CTRL + Qt::Key_O);
     loadSceneAct->setStatusTip(tr("Load scene"));
     connect(loadSceneAct, SIGNAL(triggered()), this, SLOT(loadScene()));
-
 
     //quickLoadAct
     quickLoadAct = new QAction(tr("&Quick Load"), this);
@@ -358,6 +241,139 @@ void MainWindow::createMenus()
     helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
 }
+
+void MainWindow::Toolbar()
+{
+    QPixmap openIcon((const char**) open_xpm);
+    QPixmap redoIcon((const char**) redo_xpm);
+    QPixmap simulateIcon((const char**) simulate_xpm);
+    QPixmap stopIcon((const char**) stop_xpm);
+    QPixmap cameraIcon((const char**) camera_xpm);
+    QPixmap filmIcon((const char**) film_xpm);
+    QPixmap frontViewIcon((const char**) frontView_xpm);
+    QPixmap topViewIcon((const char**) topView_xpm);
+    QPixmap rightSideViewIcon((const char**) rightSideView_xpm);
+
+    toolbar = addToolBar("main toolbar");
+    QAction *open = toolbar->addAction(QIcon(openIcon), "Open Scene (Ctrl + O)");
+    QAction *redo = toolbar->addAction(QIcon(redoIcon), "Load last viewed scene (Ctrl + Shift + Q)");
+    toolbar->addSeparator();
+    QAction *simulate = toolbar->addAction(QIcon(simulateIcon), "Start Simulation (Ctrl + R");
+    QAction *stop = toolbar->addAction(QIcon(stopIcon), "Stop Simulation (Ctrl + C");
+    stop->setVisible(false);
+    toolbar->addSeparator();
+    QAction *camera = toolbar->addAction(QIcon(cameraIcon), "Export screenshot");
+    QAction *film = toolbar->addAction(QIcon(filmIcon), "Export film sequence");
+    toolbar->addSeparator();
+    QAction *front = toolbar->addAction(QIcon(frontViewIcon), "View scene from front");
+    QAction *top = toolbar->addAction(QIcon(topViewIcon), "View scene from top");
+    QAction *rightSide = toolbar->addAction(QIcon(rightSideViewIcon), "View scene from right");
+
+    connect(open, SIGNAL(triggered()), this, SLOT(loadScene()));
+    connect(redo, SIGNAL(triggered()), this, SLOT(quickLoad()));
+    connect(simulate, SIGNAL(triggered()), this, SLOT(startSimulation()));
+    connect(stop, SIGNAL(triggered()), this, SLOT(stopSimulation()));
+    connect(camera, SIGNAL(triggered()), this, SLOT(camera()));
+    connect(film, SIGNAL(triggered()), this, SLOT(film()));
+    connect(front, SIGNAL(triggered()), this, SLOT(front()));
+    connect(top, SIGNAL(triggered()), this, SLOT(top()));
+    connect(rightSide, SIGNAL(triggered()), this, SLOT(side()));
+}
+
+QToolBar* MainWindow::_getToolBar()
+{
+    return toolbar;
+}
+
+void MainWindow::slotSetStatusBarMessage(QString msg)
+{
+    this->statusBar()->showMessage(msg);
+}
+
+void MainWindow::loadPluginFileWithDialog()
+{
+    if (true) {
+        // Set file extension filters
+        QStringList filters;
+        filters << "Shared library (*.so)";
+
+        QFileDialog dialog(this);
+        dialog.setNameFilters(filters);
+        dialog.setAcceptMode(QFileDialog::AcceptOpen);
+        dialog.setFileMode(QFileDialog::ExistingFile);
+        if (dialog.exec()) {
+            QString pluginPath = dialog.selectedFiles().at(0);
+            std::cerr << "pluginPath: " << pluginPath.toStdString() << std::endl;
+            slotSetStatusBarMessage(tr(qPrintable("plugin file: " + pluginPath)));
+            loadPluginFile(pluginPath);
+        } else {
+            slotSetStatusBarMessage(tr("Didn't find plugin directory"));
+        }
+    }
+}
+
+void MainWindow::loadPluginDirWithDialog()
+{
+    if (true) {
+        // Set file extension filters
+        QStringList filters;
+        filters << "Shared library (*.so)";
+
+        QFileDialog dialog(this);
+        dialog.setNameFilters(filters);
+        dialog.setAcceptMode(QFileDialog::AcceptOpen);
+        dialog.setFileMode(QFileDialog::Directory);
+        if (dialog.exec()) {
+            QDir pluginsDir = QDir(dialog.selectedFiles().at(0));
+            std::cerr << "pluginDir: " << pluginsDir.path().toStdString() << std::endl;
+            slotSetStatusBarMessage(tr(qPrintable("plugin Dir: " + pluginsDir.path())));
+            loadPluginDirectory(pluginsDir);
+        } else {
+            slotSetStatusBarMessage(tr("Didn't find plugin directory"));
+        }
+    }
+}
+
+void MainWindow::loadScene()
+{
+    QStringList fileNames; //stores the entire path of the file that it attempts to open
+
+    QStringList filters; //setting file filters
+    filters << "Scene files (*.urdf *.sdf *.world)"
+            << "Any files (*)";
+
+    //initializing the File dialog box
+    //the static QFileDialog does not seem to be working correctly in Ubuntu 12.04 with unity.
+    //as per the documentation it may work correctly with gnome
+    //the method used below should work correctly on all desktops and is supposedly more powerful
+    QFileDialog dialog(this);
+    dialog.setNameFilters(filters);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    if (dialog.exec())
+        fileNames = dialog.selectedFiles();
+
+    if (!fileNames.isEmpty()) {
+        std::cerr << "Attempting to open the following world file: " << fileNames.front().toStdString() << std::endl;
+        doLoad(fileNames.front().toStdString());
+    }
+}
+
+void MainWindow::quickLoad()
+{
+    QFile file(LAST_LOAD_FILE);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        slotSetStatusBarMessage("No saved load file");
+        return;
+    }
+
+    QTextStream in(&file);
+    QString line = in.readLine();
+    doLoad(line.toStdString());
+}
+
+void MainWindow::about(){}
+
 
 void MainWindow::saveScene(){}
 void MainWindow::close(){}

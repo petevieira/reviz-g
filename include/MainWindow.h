@@ -17,14 +17,14 @@
 #define MAINWINDOW_H
 
 // Qt includes
-#include <QMainWindow>
-#include <QDir>
-#include <QtXml>
+#include <QtGui/QMainWindow>
+#include <QtCore/QDir>
+#include <QtXml/QtXml>
 
 // C++ Standard includes
 #include <iostream>
 #include <cstdio>
-#include "ViewerWidget.h"
+#include "osgGolems/ViewerWidget.h"
 
 // Forward declarations
 class QAction;

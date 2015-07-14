@@ -18,7 +18,6 @@
 
 // Local includes
 #include "ui_PlaybackWidget.h"
-#include "MainWindow.h"
 
 /**
  * \class PlaybackWidget PlaybackWidget.h
@@ -34,7 +33,7 @@ public:
      * \brief Constructs a PlaybackWidget object
      * \param parent Object that creates the PlaybackWidget object
      */
-    PlaybackWidget(MainWindow *parent);
+    PlaybackWidget(QWidget *parent);
 
     /**
      * \brief Destructs this PlaybackWidget object
@@ -88,7 +87,7 @@ public slots:
 
 private:
     /// Parent's base class to access its slots and signals
-    MainWindow *_parent;
+    QWidget *_parent;
 
 }; // end class PlaybackWidget
 

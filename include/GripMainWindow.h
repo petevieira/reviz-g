@@ -24,21 +24,20 @@
 #include "MainWindow.h"
 
 // Local includes
-#include "ViewerWidget.h"
-#include "TreeView.h"
-#include "InspectorTab.h"
-#include "VisualizationTab.h"
-#include "PlaybackWidget.h"
-#include "ui_VisualizationTab.h"
-#include "ui_InspectorTab.h"
-#include "ui_TreeView.h"
-#include "ui_PlaybackWidget.h"
-#include "GripTab.h"
-#include "GripTimeslice.h"
+#include "osgGolems/ViewerWidget.h"
+#include "qtWidgets/TreeView.h"
+#include "qtWidgets/InspectorTab.h"
+#include "qtWidgets/VisualizationTab.h"
+#include "qtWidgets/PlaybackWidget.h"
+#include "qtWidgets/ui_VisualizationTab.h"
+#include "qtWidgets/ui_InspectorTab.h"
+#include "qtWidgets/ui_TreeView.h"
+#include "qtWidgets/ui_PlaybackWidget.h"
+#include "qtWidgets/GripTab.h"
 
 // Qt includes
-#include <QDir>
-#include <QtXml>
+#include <QtCore/QDir>
+#include <QtXml/QtXml>
 
 /**
  * \class GripMainWindow GripMainWindow.h
@@ -86,7 +85,7 @@ public:
     VisualizationTab *visualizationTab;
 
     /// Array of GripTimeSlice objects stored for simulation/kinematic playback
-    std::vector<GripTimeslice> *timeline;
+    // std::vector<GripTimeslice> *timeline;
     
     /// Widget for playing back the simulation or kinematic states in the timeline
     PlaybackWidget *playbackWidget;

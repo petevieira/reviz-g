@@ -20,7 +20,6 @@
 // Local includes
 #include "ui_VisualizationTab.h"
 #include "TreeView.h"
-#include "MainWindow.h"
 
 /**
  * \class VisualizationTab VisualizationTab.h
@@ -36,7 +35,7 @@ public:
     /**
      * \brief Constructs a Visualization_Tab object
      */
-    VisualizationTab(TreeView* treeView, MainWindow *parent);
+    VisualizationTab(QWidget *parent);
 
     /**
      * \brief Destructs a Visualization_Tab object
@@ -138,10 +137,10 @@ protected:
     Ui::VisualizationTab *_ui;
 
     /// Parent
-    MainWindow *_parent;
+    QWidget *_parent;
 
     /// Tree_View pointer for getting the current object
-    TreeView *_treeView;
+    // TreeView *_treeView;
 
     /// A local copy of the currently selected item in the treeview
     TreeViewReturn *_selectedTreeViewItem;

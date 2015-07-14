@@ -14,7 +14,7 @@
 // C++ Standard includes
 #include <cmath>
 
-PlaybackWidget::PlaybackWidget (MainWindow *parent)
+PlaybackWidget::PlaybackWidget (QWidget *parent)
  : QWidget(parent), ui(new Ui::PlaybackWidget)
 {
     _parent = parent;
@@ -29,6 +29,7 @@ PlaybackWidget::PlaybackWidget (MainWindow *parent)
 
 PlaybackWidget::~PlaybackWidget()
 {
+    delete ui;
 }
 
 void PlaybackWidget::reset()

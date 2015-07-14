@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(grip2)
 
+set(CMAKE_VERBOSE_MAKEFILE on)
+
 # Define some colors for fun output
 if(NOT WIN32)
   string(ASCII 27 Esc)
@@ -22,7 +24,7 @@ endif()
 #-----------------------------------------------
 #                COMPILE SETTINGS
 #-----------------------------------------------
-set(CMAKE_BUILD_TYPE "Debug")
+set(CMAKE_BUILD_TYPE "Release")
 list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
@@ -87,6 +89,8 @@ else(${OSG_LIBRARY_INSTALL})
     set(OPENSCENEGRAPH_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES} osgQt)
 endif()
 
+message(STATUS "\nIncludes: ${OpenSceneGraph_INCLUDE_DIRS}")
+
 # Find Eigen3
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(Eigen REQUIRED)
@@ -105,6 +109,7 @@ include_directories(qtWidgets)
 # Add OpenSceneGraph Nodes library
 add_subdirectory(osgGolems)
 include_directories(osgGolems)
+include_directories(./)
 
 # Add DART OSG library
 # add_subdirectory(osgDart)

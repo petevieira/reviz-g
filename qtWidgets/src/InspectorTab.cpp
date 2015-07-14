@@ -23,8 +23,8 @@
 inline double DEG2RAD(double angle_deg)  { return (angle_deg * 0.01745329251994329577); } //{ return (M_PI*angle_deg/180.0); }
 inline double RAD2DEG(double angle_rad)	 { return (angle_rad * 57.2957795130823208768); } //{ return (180.0/M_PI*angle_rad); }
 
-InspectorTab::InspectorTab(QWidget *parent, TreeView *treeViewer)
- : QDockWidget(parent), _ui(new Ui::InspectorTab), _treeview(treeViewer), _selectedTypeFromTree(Return_Type_Robot)
+InspectorTab::InspectorTab(QWidget *parent)
+ : QDockWidget(parent), _ui(new Ui::InspectorTab), _selectedTypeFromTree(Return_Type_Robot)
 {
     _ui->setupUi(this);
     int position_precision_decimal = 2;
@@ -77,7 +77,7 @@ InspectorTab::InspectorTab(QWidget *parent, TreeView *treeViewer)
     _ui->orientationSpinBox_3->setDecimals(position_precision_decimal);
     _ui->orientationSpinBox_3->setSingleStep(pow(10,-orientation_precision_decimal));
 
-    connect(_treeview, SIGNAL(itemSelected(TreeViewReturn*)),this, SLOT(receiveSeletedItem(TreeViewReturn*)));
+    // connect(_treeview, SIGNAL(itemSelected(TreeViewReturn*)),this, SLOT(receiveSeletedItem(TreeViewReturn*)));
     _ui->Joint_Slider_GroupBox->setDisabled(true);
     _ui->Position_Slider_GroupBox->setDisabled(true);
     _ui->Orientation_Slider_GroupBox->setDisabled(true);
@@ -207,6 +207,7 @@ void InspectorTab::changeSelectedJoint(int sliderValue){
 
 InspectorTab::~InspectorTab()
 {
+    delete _ui;
 }
 
 /**

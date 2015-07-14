@@ -1,0 +1,52 @@
+
+bin_PROGRAMS =	reviz
+
+lib_LTLIBRARIES = libmainwindow.la
+
+AUTOMAKE_OPTIONS = subdir-objects
+
+AM_CFLAGS   = 		-Werror \
+									-D_GNU_SOURCE \
+									-DQT_SHARED
+
+AM_CPPFLAGS = 		-Werror \
+									-I$(top_srcdir)/osgGolems \
+									-I$(top_srcdir)/qtWidgets/ui \
+									-I$(top_srcdir)/qtWidgets \
+									-I$(top_srcdir)/include \
+									-I/usr/include/qt4 \
+									-I/usr/include/qt4/QtXml \
+									-I/usr/include/qt4/QtOpenGL \
+									-I/usr/include/qt4/QtCore \
+									-I/usr/include/qt4/QtGui
+									-I/usr/include/osg \
+									-I/usr/include/osgViewer \
+									-I/usr/include/osgManipulator \
+									-I/usr/include/osgGA \
+									-I/usr/include/osgQt
+
+reviz_LDADD = \
+							$(top_srcdir)/src/libmainwindow.la \
+							$(top_srcdir)/qtWidgets/libqtWidgets.la \
+							$(top_srcdir)/osgGolems/libosgGolems.la \
+							$(GUI_LIBS) \
+							$(OSG_LIBS)
+
+reviz_SOURCES = \
+								grip.cpp
+
+libmainwindow_la_LIBADD = \
+													$(top_srcdir)/qtWidgets/libqtWidgets.la \
+													$(top_srcdir)/osgGolems/libosgGolems.la \
+													$(GUI_LIBS) \
+													$(OSG_LIBS)
+
+libmainwindow_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -export-dynamic
+
+libmainwindow_la_SOURCES =	\
+														moc_MainWindow.cc MainWindow.cpp \
+														GripMainWindow.cpp \
+														GripTimeslice.cpp
+
+moc_MainWindow.cc:	$(top_srcdir)/include/MainWindow.h
+					@MOC@ -o $@ $<

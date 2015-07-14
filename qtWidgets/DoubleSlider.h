@@ -16,7 +16,7 @@
 #ifndef DOUBLESPINBOX_H
 #define DOUBLESPINBOX_H
 
-#include <QSlider>
+#include <QtGui/QSlider>
 
 /**
  * \class DoubleSlider DoubleSlider.h

@@ -20,11 +20,10 @@
 // Local includes
 #include "TreeViewReturn.h"
 #include "../osgGolems/ViewerWidget.h"
-#include "../include/GripTimeslice.h"
 
 // Qt includes
-#include <QDockWidget>
-#include <QtPlugin>
+#include <QtGui/QDockWidget>
+#include <QtCore/QtPlugin>
 
 
 /**
@@ -41,11 +40,6 @@ protected:
     /// pointer to the osg viewer
     ViewerWidget *_viewWidget;
 
-    /// pointer to the timeline, which holds a GripTimeslice objects.
-    /// These contain the state and time of the world. To use just call
-    /// timeline->push_back(GripTimeslice(*world));
-    std::vector<GripTimeslice> *_timeline;
-
 public:
     /**
      * \brief called from the main window whenever a new scene is loaded
@@ -61,12 +55,10 @@ public:
 	 * \param timeline Array of GripTimeslice object for simulation and kinematic playback
      */
     virtual void Load(TreeViewReturn *ret,
-                      ViewerWidget *viewer,
-                      std::vector<GripTimeslice> *timeline)
+                      ViewerWidget *viewer)
     {
         _activeNode = ret;
         _viewWidget = viewer;
-        _timeline = timeline;
     }
 
     /**

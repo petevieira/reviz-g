@@ -34,7 +34,7 @@ TreeView::TreeView(QWidget *parent, QList<GripTab*>* tabs) :QDockWidget(parent),
     _ui_treeWidget = _ui->treeWidget;
     _ui_treeWidget->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     _ui_treeWidget->header()->setResizeMode(0, QHeaderView::ResizeToContents);
-    _ui_treeWidget->header()->setStretchLastSection(false);
+    _ui_treeWidget->header()->setStretchLastSection(true);
     connect(_ui_treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(treeViewItemSelected(QTreeWidgetItem*,int)));
 
     _ui_checkBox = _ui->checkBox;
@@ -44,6 +44,7 @@ TreeView::TreeView(QWidget *parent, QList<GripTab*>* tabs) :QDockWidget(parent),
 TreeView::~TreeView()
 {
     delete _ui;
+    delete _activeItem;
 }
 
 void TreeView::treeViewItemSelected(QTreeWidgetItem * item, int column)

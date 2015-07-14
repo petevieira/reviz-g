@@ -16,8 +16,6 @@
 #ifndef GRIP_TIMESLICE_H
 #define GRIP_TIMESLICE_H
 
-#include <Eigen/Geometry>
-
 /**
  * \class GripTimeslice GripTimeslice.h
  * \brief Class for storing a slice of the timeline. This contains a
@@ -46,7 +44,7 @@ public:
      * \brief Sets the protected world state variable of the GripTimeslice
      * \param state State of the World
      */
-    void setState(const Eigen::VectorXd &state);
+    void setState();
 
     /**
      * \brief Gets the time stored in the GripTimeslice
@@ -58,11 +56,11 @@ public:
      * \brief Gets the state stored in the GripTimeslice
      * \return Eigen::VectorXd representing the world state
      */
-    const Eigen::VectorXd& getState();
+    void getState();
 
 protected:
     double _time; ///< Timestamp for the world state
-    Eigen::VectorXd _state; ///< State of the world at this time
+    int _state; ///< State of the world at this time
 
 }; // end class GripTimeslice
 

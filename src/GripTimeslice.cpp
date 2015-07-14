@@ -8,7 +8,7 @@
  * Date: June 2015
  */
 
-#include "GripTimeslice.h"
+#include "include/GripTimeslice.h"
 
 GripTimeslice::GripTimeslice()
 {
@@ -24,15 +24,14 @@ void GripTimeslice::setTime(double time)
     _time = time;
 }
 
-void GripTimeslice::setState(const Eigen::VectorXd &state)
+void GripTimeslice::setState()
 {
-    _state = state;
 }
 
 double GripTimeslice::getTime() {
     return _time;
 }
 
-const Eigen::VectorXd& GripTimeslice::getState() {
-    return _state;
+void GripTimeslice::getState() {
+
 }

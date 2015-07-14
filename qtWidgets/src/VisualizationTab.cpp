@@ -14,12 +14,12 @@
 // C++ Standard includes
 #include <iostream>
 
-VisualizationTab::VisualizationTab(TreeView* treeView, MainWindow *parent)
+VisualizationTab::VisualizationTab(QWidget *parent)
     : QDockWidget(parent), _parent(parent)
 {
     _ui = new Ui::VisualizationTab;
-    _treeView = treeView;
-    _selectedTreeViewItem = 0;
+    // _treeView = treeView;
+    // _selectedTreeViewItem = 0;
 
     _ui->setupUi(this);
 
@@ -37,12 +37,13 @@ VisualizationTab::VisualizationTab(TreeView* treeView, MainWindow *parent)
     connect(_ui->checkBoxShowContactForces, SIGNAL(toggled(bool)), this, SLOT(slotToggleContactForcesVisibility(bool)));
 
     // Signals from TreeView to my slots
-    connect(_treeView, SIGNAL(itemSelected(TreeViewReturn*)), this, SLOT(slotSetTransparencySliderFromSelectedItem()));
-    connect(_treeView, SIGNAL(itemSelected(TreeViewReturn*)), this, SLOT(slotSetSelectedTreeViewItem()));
+    // connect(_treeView, SIGNAL(itemSelected(TreeViewReturn*)), this, SLOT(slotSetTransparencySliderFromSelectedItem()));
+    // connect(_treeView, SIGNAL(itemSelected(TreeViewReturn*)), this, SLOT(slotSetSelectedTreeViewItem()));
 }
 
 VisualizationTab::~VisualizationTab()
 {
+    delete _ui;
 }
 
 void VisualizationTab::update()

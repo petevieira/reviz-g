@@ -9,21 +9,21 @@
  */
 
 // Local includes
-#include "GripMainWindow.h"
-#include "ViewerWidget.h"
-#include "VisualizationTab.h"
-#include "ui_VisualizationTab.h"
-#include "InspectorTab.h"
-#include "ui_InspectorTab.h"
-#include "TreeView.h"
-#include "ui_TreeView.h"
-#include "DoubleSlider.h"
-#include "Grid.h"
-#include "Line.h"
+#include "include/GripMainWindow.h"
+#include "osgGolems/ViewerWidget.h"
+#include "qtWidgets/VisualizationTab.h"
+#include "qtWidgets/ui_VisualizationTab.h"
+#include "qtWidgets/InspectorTab.h"
+#include "qtWidgets/ui_InspectorTab.h"
+#include "qtWidgets/TreeView.h"
+#include "qtWidgets/ui_TreeView.h"
+#include "qtWidgets/DoubleSlider.h"
+#include "osgGolems/Grid.h"
+#include "osgGolems/Line.h"
 
 // Qt includes
-#include <QtGui>
-#include <QPixmap>
+#include <QtGui/QtGui>
+#include <QtGui/QPixmap>
 
 // OpenSceneGraph includes
 #include <osg/io_utils>
@@ -42,7 +42,7 @@ GripMainWindow::GripMainWindow(bool debug, std::string sceneFile, std::string co
 {
     /// object initialization
     playbackWidget = new PlaybackWidget(this);
-    timeline = new std::vector<GripTimeslice>(0);
+    // timeline = new std::vector<GripTimeslice>(0);
     pluginPathList = new QList<QString*>;
     sceneFilePath = new QString();
     std::cerr<<sceneFilePath->toStdString()<<std::endl;
@@ -70,10 +70,25 @@ GripMainWindow::GripMainWindow(bool debug, std::string sceneFile, std::string co
     if (!sceneFile.empty())
         this->doLoad(sceneFile);
     xga1024x768();
+    // this->setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));"
+                       // "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 cyan, stop:1 blue);}");
 
 }
 
-GripMainWindow::~GripMainWindow() {}
+GripMainWindow::~GripMainWindow()
+{
+    delete pluginList;
+    delete pluginMenu;
+    delete playbackWidget;
+    // delete timeline;
+    delete pluginPathList;
+    delete sceneFilePath;
+    delete inspectorTab;
+    delete visualizationTab;
+    delete sceneFilePath;
+    delete viewWidget;
+    // delete treeviewer;
+}
 
 void GripMainWindow::doLoad(std::string sceneFileName)
 {
@@ -169,16 +184,16 @@ void GripMainWindow::simulationStopped()
     if(_debug) std::cerr << "Got simulationStopped signal" << std::endl;
     _simulating = false;
     playbackWidget->ui->sliderMain->setEnabled(true);
-    playbackWidget->slotUpdateSliderMinMax(0, timeline->size() - 1);
-    playbackWidget->setSliderValue(timeline->size() - 1);
+    // playbackWidget->slotUpdateSliderMinMax(0, timeline->size() - 1);
+    // playbackWidget->setSliderValue(timeline->size() - 1);
 }
 
 void GripMainWindow::slotSetWorldFromPlayback(int sliderTick)
 {
-    if (_simulating || timeline->size() <= 0) {
-        playbackWidget->setSliderValue(0);
-        return;
-    }
+    // if (_simulating || timeline->size() <= 0) {
+    //     playbackWidget->setSliderValue(0);
+    //     return;
+    // }
 
     _curPlaybackTick = sliderTick;
     // world->setTime(timeline->at(_curPlaybackTick).getTime());
@@ -189,13 +204,13 @@ void GripMainWindow::slotSetWorldFromPlayback(int sliderTick)
 
 void GripMainWindow::slotPlaybackStart()
 {
-    if (timeline->size() <= 0) {
-        return;
-    }
+    // if (timeline->size() <= 0) {
+        // return;
+    // }
 
-    if ((playbackWidget->getSliderValue() + 1) == (int) timeline->size()) {
-        this->slotPlaybackBeginning();
-    }
+    // if ((playbackWidget->getSliderValue() + 1) == (int) timeline->size()) {
+        // this->slotPlaybackBeginning();
+    // }
 
     this->slotSetStatusBarMessage(tr("Starting playback"));
 
@@ -216,9 +231,9 @@ void GripMainWindow::slotPlaybackStart()
 
 void GripMainWindow::slotPlaybackPause()
 {
-    if (timeline->size() <= 0 || !_playingBack) {
-        return;
-    }
+    // if (timeline->size() <= 0 || !_playingBack) {
+        // return;
+    // }
 
     this->slotSetStatusBarMessage(tr(qPrintable("Pausing playback")));
 
@@ -231,12 +246,12 @@ void GripMainWindow::slotPlaybackPause()
 
 void GripMainWindow::slotPlaybackReverse()
 {
-    if (timeline->size() <= 0) {
-        return;
-    }
+    // if (timeline->size() <= 0) {
+        // return;
+    // }
 
     if (playbackWidget->getSliderValue() == 0) {
-        _curPlaybackTick = timeline->size() - 1;
+        // _curPlaybackTick = timeline->size() - 1;
         playbackWidget->setSliderValue(_curPlaybackTick);
         // world->setTime(timeline->back().getTime());
         // this->setWorldState_Issue122(timeline->back().getState());
@@ -261,18 +276,18 @@ void GripMainWindow::slotPlaybackReverse()
 
 void GripMainWindow::slotPlaybackBeginning()
 {
-    if (timeline->size() <= 0) {
-        return;
-    }
+    // if (timeline->size() <= 0) {
+        // return;
+    // }
 
     this->slotSetStatusBarMessage(tr("Setting playback to beginning"));
 
     _curPlaybackTick = 0;
     playbackWidget->setSliderValue(_curPlaybackTick);
-    if (timeline->size() > 0) {
+    // if (timeline->size() > 0) {
         // world->setTime(timeline->at(_curPlaybackTick).getTime());
         // this->setWorldState_Issue122(timeline->front().getState());
-    }
+    // }
     // playbackWidget->slotSetTimeDisplays(world->getTime(), 0);
 }
 
@@ -293,18 +308,18 @@ void GripMainWindow::slotPlaybackTimeStep(bool playForward)
         // this->setWorldState_Issue122(timeline->at(_curPlaybackTick).getState());
         // playbackWidget->slotSetTimeDisplays(world->getTime(), 0);
 
-        std::cerr << "cur: " << _curPlaybackTick << ", " << _curPlaybackTick + _playbackSpeed << ", " << timeline->size()-1 << std::endl;
-        if ((_curPlaybackTick == 0 && !playForward)
-                || (_curPlaybackTick == (timeline->size() - 1) && playForward)) {
-            _playingBack = false;
-            std::cerr << "Done playing back" << std::endl;
-        } else if (((_curPlaybackTick - _playbackSpeed) < 0 && !playForward)
-                || ((_curPlaybackTick + _playbackSpeed) > (timeline->size() - 1) && playForward)) {
-            _curPlaybackTick = (playForward ? timeline->size() - 1 : 0); 
-        } else {
-            playForward ? _curPlaybackTick = _curPlaybackTick + _playbackSpeed
-                    : _curPlaybackTick = _curPlaybackTick - _playbackSpeed;
-        }
+        // std::cerr << "cur: " << _curPlaybackTick << ", " << _curPlaybackTick + _playbackSpeed << ", " << timeline->size()-1 << std::endl;
+        // if ((_curPlaybackTick == 0 && !playForward)
+                // || (_curPlaybackTick == (timeline->size() - 1) && playForward)) {
+            // _playingBack = false;
+            // std::cerr << "Done playing back" << std::endl;
+        // } else if (((_curPlaybackTick - _playbackSpeed) < 0 && !playForward)
+                // || ((_curPlaybackTick + _playbackSpeed) > (timeline->size() - 1) && playForward)) {
+            // _curPlaybackTick = (playForward ? timeline->size() - 1 : 0); 
+        // } else {
+            // playForward ? _curPlaybackTick = _curPlaybackTick + _playbackSpeed
+                    // : _curPlaybackTick = _curPlaybackTick - _playbackSpeed;
+        // }
 
         playbackWidget->setSliderValue(_curPlaybackTick);
         if(_recordVideo){
@@ -465,7 +480,7 @@ void GripMainWindow::createRenderingWindow()
 
 void GripMainWindow::createTreeView()
 {
-    treeviewer = new TreeView(this, pluginList);
+    // treeviewer = new TreeView(this, pluginList);
 }
 
 void GripMainWindow::loadPluginDirectory(QDir pluginsDirName)
@@ -538,8 +553,8 @@ void GripMainWindow::loadPluginFile(QString pluginFileName)
 
 void GripMainWindow::createTabs()
 {
-    inspectorTab = new InspectorTab(this, treeviewer);
-    visualizationTab = new VisualizationTab(treeviewer, this);
+    inspectorTab = new InspectorTab(this);
+    visualizationTab = new VisualizationTab(this);
 }
 
 void GripMainWindow::createGround()
@@ -560,7 +575,7 @@ void GripMainWindow::manageLayout()
     this->setCentralWidget(widget);
 
     /// adding tree view
-    this->addDockWidget(Qt::RightDockWidgetArea, treeviewer);
+    // this->addDockWidget(Qt::RightDockWidgetArea, treeviewer);
 
     /// adding the inspector and visualization tabs
     this->setTabPosition(Qt::BottomDockWidgetArea, QTabWidget::North);

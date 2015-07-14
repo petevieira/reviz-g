@@ -9,7 +9,7 @@
  */
 
 // Qt includes
-#include <QtGui>
+#include <QtGui/QtGui>
 
 // C++ Standard includes
 #include <cmath>

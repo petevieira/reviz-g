@@ -38,7 +38,7 @@ public:
      * \param simWorld Pointer to the simulation world
      * \param treeViewer Pointer to the TreeView
      */
-    InspectorTab(QWidget *parent, TreeView *treeViewer);
+    InspectorTab(QWidget *parent);
 
     /**
      * \brief Destructs an InspectorTab object
@@ -62,7 +62,7 @@ private:
     /// Pointer to all the widgets of the UI
     Ui::InspectorTab *_ui;
     /// Pointer to the TreeView object
-    TreeView *_treeview;
+    // TreeView *_treeview;
     /// Pointer to the position slider widget
     QSlider *_positionSlider_0;
     /// Pointer to the position spin box widget

@@ -12,6 +12,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QDockWidget { 
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 241), stop:1 rgba(255, 255, 255, 255));
    font: 0.5pt &quot;Ubuntu&quot;;
    color:rgb(255, 255, 255);
 }

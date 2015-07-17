@@ -91,10 +91,15 @@ AC_LANG_PUSH([C++])
 AC_LANG_POP([C++])
 
 dnl check for gui libraries
+GUI_LIBS=""
+HAVE_GUI_LIBS="yes"
+
+OSG_LIBS=""
+HAVE_OSG_LIBS="yes"
 
 # for now assuming a fixed location for QT
 CPPFLAGS="$CPPFLAGS -I/usr/include/qt4"
-CPPFLAGS="$CPPFLAGS -I./osgGolems -I./qtWidgets -I./qtWidgets/ui"
+CPPFLAGS="$CPPFLAGS -I./osgReviz -I./qtWidgets -I./qtWidgets/ui"
 
 AC_CHECK_LIB(QtOpenGL, main,
              GUI_LIBS="$GUI_LIBS -lQtOpenGL",
@@ -179,7 +184,7 @@ AC_SUBST(OSG_LIBS)
 
 dnl Create files
 AC_CONFIG_FILES([Makefile
-                osgGolems/Makefile
+                osgReviz/Makefile
                 qtWidgets/Makefile
                 src/Makefile])
 

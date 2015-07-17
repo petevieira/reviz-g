@@ -24,7 +24,7 @@
 // C++ Standard includes
 #include <iostream>
 #include <cstdio>
-#include "osgGolems/ViewerWidget.h"
+#include "osgReviz/ViewerWidget.h"
 
 // Forward declarations
 class QAction;

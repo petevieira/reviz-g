@@ -1,5 +1,5 @@
 
-lib_LTLIBRARIES =		libosgGolems.la
+lib_LTLIBRARIES =		libosgReviz.la
 
 AUTOMAKE_OPTIONS = subdir-objects
 
@@ -18,9 +18,9 @@ AM_CPPFLAGS = 		-Werror \
 									-I/usr/include/qt4/QtOpenGL \
 									-I/usr/include/qt4/QtCore
 
-libosgGolems_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -export-dynamic -soname
+libosgReviz_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -export-dynamic -soname
 
-libosgGolems_la_SOURCES = \
+libosgReviz_la_SOURCES = \
 												 	src/ViewerWidget.cpp \
 													src/Grid.cpp \
 													src/osgUtils.cpp \

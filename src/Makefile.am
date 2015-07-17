@@ -11,7 +11,7 @@ AM_CFLAGS   = 		-Werror \
 AM_CXXFLAGS = 		-Werror \
 									-D_GNU_SOURCE \
 									-DQT_SHARED \
-									-I$(top_srcdir)/osgGolems \
+									-I$(top_srcdir)/osgReviz \
 									-I$(top_srcdir)/qtWidgets/ui \
 									-I$(top_srcdir)/qtWidgets \
 									-I$(top_srcdir)/include \
@@ -29,7 +29,7 @@ AM_CXXFLAGS = 		-Werror \
 reviz_LDADD = \
 							$(top_srcdir)/src/libmainwindow.la \
 							$(top_srcdir)/qtWidgets/libqtWidgets.la \
-							$(top_srcdir)/osgGolems/libosgGolems.la \
+							$(top_srcdir)/osgReviz/libosgReviz.la \
 							$(GUI_LIBS) \
 							$(OSG_LIBS)
 
@@ -38,7 +38,7 @@ reviz_SOURCES = \
 
 libmainwindow_la_LIBADD = \
 													$(top_srcdir)/qtWidgets/libqtWidgets.la \
-													$(top_srcdir)/osgGolems/libosgGolems.la \
+													$(top_srcdir)/osgReviz/libosgReviz.la \
 													$(GUI_LIBS) \
 													$(OSG_LIBS)
 

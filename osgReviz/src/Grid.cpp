@@ -14,7 +14,7 @@
 // C++ Standard includes
 #include <iostream>
 
-using namespace osgGolems;
+using namespace osgReviz;
 
 //-----------------------------------------------
 //            PUBLIC MEMBER FUNCTIONS
@@ -37,9 +37,7 @@ Grid::Grid(uint width, uint depth, uint gridSize, const osg::Vec4& color)
     _drawGrid(color);
 }
 
-Grid::~Grid()
-{
-}
+Grid::~Grid(){}
 
 void Grid::setGridColor(const osg::Vec4& color)
 {

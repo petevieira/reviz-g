@@ -9,7 +9,7 @@ add_definitions(${QT_DEFINITIONS})
 include(${QT_USE_FILE})
 
 # Add include directory to include_directories variable
-include_directories(./ "../osgGolems/")
+include_directories(./ "../osgReviz/")
 
 # Add include directory in order to find ui_*.h files
 include_directories(${CMAKE_BINARY_DIR}/qtWidgets)

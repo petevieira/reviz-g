@@ -24,7 +24,7 @@
 #include "MainWindow.h"
 
 // Local includes
-#include "osgGolems/ViewerWidget.h"
+#include "osgReviz/ViewerWidget.h"
 #include "qtWidgets/TreeView.h"
 #include "qtWidgets/InspectorTab.h"
 #include "qtWidgets/VisualizationTab.h"

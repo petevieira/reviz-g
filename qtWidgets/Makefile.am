@@ -7,7 +7,7 @@ AM_CFLAGS   = 		-Werror \
 									-D_GNU_SOURCE
 
 AM_CPPFLAGS = 		-Werror \
-									-I$(top_srcdir)/osgGolems \
+									-I$(top_srcdir)/osgReviz \
 									-Iui \
 									-I. \
 									-I/usr/include/qt4 \

@@ -25,10 +25,10 @@
 #include <osg/MatrixTransform>
 
 /**
- * \namespace osgGolems
+ * \namespace osgReviz
  * \brief Namespace for all the classes that are only dependent upon OpenSceneGraph
  */
-namespace osgGolems {
+namespace osgReviz {
 
 /**
  * \class Axes Axes.h
@@ -137,6 +137,6 @@ protected:
     
 }; // end class Axes
 
-} // end namespace osgGolems
+} // end namespace osgReviz
 
 #endif // AXES_H

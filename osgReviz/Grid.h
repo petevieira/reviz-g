@@ -21,10 +21,10 @@
 #include <osg/Geometry>
 
 /**
- * \namespace osgGolems
+ * \namespace osgReviz
  * \brief Namespace for all the classes that are only dependent upon OpenSceneGraph
  */
-namespace osgGolems {
+namespace osgReviz {
 
 /**
  * \class Grid Grid.h
@@ -94,6 +94,6 @@ protected:
 
 }; // end class Grid
 
-} // end namespace osgGolems
+} // end namespace osgReviz
 
 #endif // GRID_H

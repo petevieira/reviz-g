@@ -10,7 +10,7 @@
 
 // Local includes
 #include "include/GripMainWindow.h"
-#include "osgGolems/ViewerWidget.h"
+#include "osgReviz/ViewerWidget.h"
 #include "qtWidgets/VisualizationTab.h"
 #include "qtWidgets/ui_VisualizationTab.h"
 #include "qtWidgets/InspectorTab.h"
@@ -18,8 +18,8 @@
 #include "qtWidgets/TreeView.h"
 #include "qtWidgets/ui_TreeView.h"
 #include "qtWidgets/DoubleSlider.h"
-#include "osgGolems/Grid.h"
-#include "osgGolems/Line.h"
+#include "osgReviz/Grid.h"
+#include "osgReviz/Line.h"
 
 // Qt includes
 #include <QtGui/QtGui>

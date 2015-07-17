@@ -22,10 +22,10 @@
 #include <osg/ShapeDrawable>
 
 /**
- * \namespace osgGolems
+ * \namespace osgReviz
  * \brief Namespace for all the classes that are only dependent upon OpenSceneGraph
  */
-namespace osgGolems {
+namespace osgReviz {
 
 /**
  * \class Sphere
@@ -327,6 +327,6 @@ protected:
 
 }; // end class Capsule
 
-} // end namepsace osgGolems
+} // end namepsace osgReviz
 
 #endif // SHAPES_H

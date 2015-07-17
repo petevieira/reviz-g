@@ -8,13 +8,6 @@
  * Date: June 2015
  */
 
-// Standard includes
-//  #include <cstdio>
-//  #include <istream>
-//  #include <iostream>
-//  #include <fstream>
-// #include <string>
-
 // Local includes
 #include "ViewerWidget.h"
 #include "osgUtils.h"
@@ -31,7 +24,7 @@
 void ViewerWidget::addGrid(uint width, uint depth, uint gridSize)
 {
     osg::Geode* gridGeode = new osg::Geode();
-    osgGolems::Grid* grid = new osgGolems::Grid(width, depth, gridSize, osg::Vec4(.3, .3, .3, .5));
+    osgReviz::Grid* grid = new osgReviz::Grid(width, depth, gridSize, osg::Vec4(.3, .3, .3, .5));
     gridGeode->addDrawable(grid);
     gridGeode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF
                                                    | osg::StateAttribute::PROTECTED);
@@ -84,10 +77,10 @@ QWidget* ViewerWidget::addViewWidget(osg::Camera* camera, osg::Node* scene)
 
     view->addEventHandler(new osgViewer::StatsHandler);
 
-    osgGolems::GripCameraManipulator* cameraManipulator = new osgGolems::GripCameraManipulator();
+    osgReviz::GripCameraManipulator* cameraManipulator = new osgReviz::GripCameraManipulator();
     view->setCameraManipulator(cameraManipulator);
 
-//    osgGolems::myKeyboardEventHandler* keyboardHandler = new osgGolems::myKeyboardEventHandler();
+//    osgReviz::myKeyboardEventHandler* keyboardHandler = new osgReviz::myKeyboardEventHandler();
 //    view->getEventHandlers().push_front(keyboardHandler);
 
     osgQt::GraphicsWindowQt* gw = dynamic_cast<osgQt::GraphicsWindowQt*>(camera->getGraphicsContext());
@@ -200,15 +193,15 @@ osg::Matrix ViewerWidget::getCameraMatrix(uint viewNum)
 void ViewerWidget::addNodeToScene(osg::Node* node, uint viewNum)
 {
     if (node != node || !(viewNumIsValid(viewNum))) {
-        // std::cerr << "Error! Invalid node" << std::endl;
+        std::cerr << "Error! Invalid node" << std::endl;
         return;
     }
 
     osg::Group* scene = this->getView(viewNum)->getSceneData()->asGroup();
 
     if (scene != scene) {
-        // std::cerr << "Error! Can not convert from osg::Node to osg::Group."
-                  // << std::endl;
+        std::cerr << "Error! Can not convert from osg::Node to osg::Group."
+                  << std::endl;
     } else {
         scene->addChild(node);
     }
@@ -217,14 +210,14 @@ void ViewerWidget::addNodeToScene(osg::Node* node, uint viewNum)
 void ViewerWidget::removeNodeFromScene(osg::Node* node, uint viewNum)
 {
     if (node != node || !(viewNumIsValid(viewNum))) {
-        // std::cerr << "Error! Invalid node" << std::endl;
+        std::cerr << "Error! Invalid node" << std::endl;
         return;
     }
 
     osg::Group* scene = this->getView(viewNum)->getSceneData()->asGroup();
     if (scene != scene) {
-        // std::cerr << "Error! Can not convert from osg::Node to osg::Group."
-                  // << std::endl;
+        std::cerr << "Error! Can not convert from osg::Node to osg::Group."
+                  << std::endl;
     } else {
         scene->removeChild(node);
     }

@@ -18,7 +18,6 @@
 
 // QT includes
 #include <QtCore/QTimer>
-#include <QtCore/QMutex>
 #include <QtGui/QGridLayout>
 
 // OpenSceneGraph includes
@@ -31,7 +30,7 @@
 #include "osgUtils.h"
 
 // Standard Library includes
-// #include <iostream>
+#include <iostream>
 
 /**
  * \class ViewerWidget ViewerWidget.h

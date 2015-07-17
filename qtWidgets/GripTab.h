@@ -19,7 +19,7 @@
 
 // Local includes
 #include "TreeViewReturn.h"
-#include "../osgGolems/ViewerWidget.h"
+#include "../osgReviz/ViewerWidget.h"
 
 // Qt includes
 #include <QtGui/QDockWidget>

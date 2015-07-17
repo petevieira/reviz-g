@@ -107,8 +107,8 @@ add_subdirectory(qtWidgets)
 include_directories(qtWidgets)
 
 # Add OpenSceneGraph Nodes library
-add_subdirectory(osgGolems)
-include_directories(osgGolems)
+add_subdirectory(osgReviz)
+include_directories(osgReviz)
 include_directories(./)
 
 # Add DART OSG library
@@ -116,7 +116,7 @@ include_directories(./)
 # include_directories(osgDart)
 
 # Set project libraries variable
-set(project_libs qtWidgets osgGolems)
+set(project_libs qtWidgets osgReviz)
 
 # Add Main Window library
 QT4_WRAP_CPP(GUI_MOC_HEADERS ${PROJECT_SOURCE_DIR}/include/MainWindow.h)
@@ -133,7 +133,7 @@ set(project_libs ${project_libs} mainWindow)
 add_executable(grip ${PROJECT_SOURCE_DIR}/src/grip.cpp)
 target_link_libraries(grip ${project_libs} ${QT_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES})
 
-FILE(GLOB grip-srcs osgGolems/*.h osgGolems/src/*.cpp qtWidgets/*.h qtWidgets/src/*.cpp)
+FILE(GLOB grip-srcs osgReviz/*.h osgReviz/src/*.cpp qtWidgets/*.h qtWidgets/src/*.cpp)
 add_library(grip-core SHARED ${grip-srcs})
 target_link_libraries(grip-core ${project_libs} ${QT_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES})
 
@@ -176,9 +176,9 @@ endforeach(utest_src_file)
 # INSTALL(FILES ${osgDartHeaders}
 #         DESTINATION /usr/local/include/grip/osgDart)
 
-# FILE(GLOB osgGolemsHeaders "osgGolems/*.h")
-# INSTALL(FILES ${osgGolemsHeaders}
-#         DESTINATION /usr/local/include/grip/osgGolems)
+# FILE(GLOB osgRevizHeaders "osgReviz/*.h")
+# INSTALL(FILES ${osgRevizHeaders}
+#         DESTINATION /usr/local/include/grip/osgReviz)
 
 # FILE(GLOB qtWidgetsHeaders "qtWidgets/*.h")
 # INSTALL(FILES ${qtWidgetsHeaders}

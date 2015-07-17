@@ -21,7 +21,7 @@ Directory Overview
 
   osgDart defines the interface between OpenSceneGraph and DART. For every object in DART a node in OpenSceneGraph is created and can be rendered to an OpenSceneGraph View.
 
-  4. osgGolems
+  4. osgReviz
 
   osgGolem defines a set of libraries for OpenSceneGraph that only depend on OpenSceneGraph.
 
@@ -160,7 +160,7 @@ Note: Remember that the plugin needs to compile into a library and not an execut
 5. Create a UI file using QT Designer that is of type QDockWidget and add the UI elements as needed
 6. In the header files add the following includes
 <pre><code>#include &lt;grip/qtWidgets/GripTab.h&gt;
-	#include &lt;grip/osgGolems/ViewerWidget.h&gt;
+	#include &lt;grip/osgReviz/ViewerWidget.h&gt;
 </code></pre>
 7. The plugin class has to implement the GripTab interface in grip. Therefore you should change the inheritance from QDockWidget to GripTab
 8. The class definition should define the object as a Q_OBJECT and should inform that it is implementing an interface. A sample structure would be:

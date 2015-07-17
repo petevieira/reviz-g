@@ -12,7 +12,7 @@
 #include "GripCameraManipulator.h"
 #include <iostream>
 
-using namespace osgGolems;
+using namespace osgReviz;
 
 GripCameraManipulator::GripCameraManipulator()
 {

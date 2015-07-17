@@ -13,7 +13,7 @@
 
 #include "ui_myplugin.h"
 #include <grip/qtWidgets/GripTab.h>
-#include <grip/osgGolems/ViewerWidget.h>
+#include <grip/osgReviz/ViewerWidget.h>
 #include <grip/qtWidgets/TreeViewReturn.h>
 
 

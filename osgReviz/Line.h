@@ -21,10 +21,10 @@
 #include <osg/LineWidth>
 
 /**
- * \namespace osgGolems
+ * \namespace osgReviz
  * \brief Namespace for all the classes that are only dependent upon OpenSceneGraph
  */
-namespace osgGolems {
+namespace osgReviz {
 
 /**
  * \enum lineType
@@ -214,6 +214,6 @@ protected:
 
 }; // end class Line
 
-} // end namepsace osgGolems
+} // end namepsace osgReviz
 
 #endif // LINE_H

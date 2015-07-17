@@ -21,10 +21,10 @@
 #include <osgGA/OrbitManipulator>
 
 /**
- * \namespace osgGolems
+ * \namespace osgReviz
  * \brief Namespace for all the classes that are only dependent upon OpenSceneGraph
  */
-namespace osgGolems {
+namespace osgReviz {
 
 /**
  * \class GripCameraManipulator GripCameraManipulator.h
@@ -84,6 +84,6 @@ protected:
 
 }; // end class CameraManipulator
 
-} // end namespace osgGolems
+} // end namespace osgReviz
 
 #endif // GRIP_CAMERA_MANIPULATOR_H

@@ -28,15 +28,6 @@ DoubleSlider::DoubleSlider (QWidget *parent)
 
 }
 
-DoubleSlider::~DoubleSlider()
-{
-}
-
-bool DoubleSlider::event(QEvent *event)
-{
-    return true;
-}
-
 double DoubleSlider::changeTOdouble(int intvalue)
 {
 

@@ -45,6 +45,7 @@ libmainwindow_la_LIBADD = \
 libmainwindow_la_LIBFLAGS = -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x
 
 libmainwindow_la_SOURCES =	\
+														ViewerWidget.cpp \
 														GripMainWindow.cpp \
 														moc_MainWindow.cc MainWindow.cpp \
 														GripTimeslice.cpp

@@ -24,7 +24,8 @@
 #include "MainWindow.h"
 
 // Local includes
-#include "osgReviz/ViewerWidget.h"
+#include "ViewerWidget.h"
+#include "GripTab.h"
 #include "qtWidgets/TreeView.h"
 #include "qtWidgets/InspectorTab.h"
 #include "qtWidgets/VisualizationTab.h"
@@ -33,7 +34,6 @@
 #include "qtWidgets/ui_InspectorTab.h"
 #include "qtWidgets/ui_TreeView.h"
 #include "qtWidgets/ui_PlaybackWidget.h"
-#include "qtWidgets/GripTab.h"
 
 // Qt includes
 #include <QtCore/QDir>

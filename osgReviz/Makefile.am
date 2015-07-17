@@ -21,7 +21,6 @@ AM_CPPFLAGS = 		-Werror \
 libosgReviz_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -export-dynamic -soname
 
 libosgReviz_la_SOURCES = \
-												 	src/ViewerWidget.cpp \
 													src/Grid.cpp \
 													src/osgUtils.cpp \
 													src/GripCameraManipulator.cpp

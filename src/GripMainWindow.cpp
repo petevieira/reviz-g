@@ -10,7 +10,7 @@
 
 // Local includes
 #include "include/GripMainWindow.h"
-#include "osgReviz/ViewerWidget.h"
+#include "include/ViewerWidget.h"
 #include "qtWidgets/VisualizationTab.h"
 #include "qtWidgets/ui_VisualizationTab.h"
 #include "qtWidgets/InspectorTab.h"

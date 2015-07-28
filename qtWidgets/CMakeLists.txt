@@ -9,7 +9,7 @@ add_definitions(${QT_DEFINITIONS})
 include(${QT_USE_FILE})
 
 # Add include directory to include_directories variable
-include_directories(./ "../osgReviz/")
+include_directories(./ "../osgReviz/" "../include/")
 
 # Add include directory in order to find ui_*.h files
 include_directories(${CMAKE_BINARY_DIR}/qtWidgets)
@@ -20,8 +20,7 @@ QT4_WRAP_UI(UI ${UI_FILES})
 
 # Wrap .moc files, but remove files with no implementation
 FILE(GLOB MOC_FILES ./*.h)
-LIST(REMOVE_ITEM MOC_FILES "${CMAKE_CURRENT_LIST_DIR}/./GripTab.h"
-                           "${CMAKE_CURRENT_LIST_DIR}/./TreeViewReturn.h"
+LIST(REMOVE_ITEM MOC_FILES "${CMAKE_CURRENT_LIST_DIR}/./TreeViewReturn.h"
                            "${CMAKE_CURRENT_LIST_DIR}/./Plotting.h")
 QT4_WRAP_CPP(MOC ${MOC_FILES})
 

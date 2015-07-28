@@ -367,7 +367,7 @@ protected:
      * joints, some extra work arounds have to been performed.
      * \param newState New state for the world
      */
-    void setWorldState_Issue122(const Eigen::VectorXd &newState);
+    void setWorldState_Issue122();
 
     /**
      * \brief Records playback images

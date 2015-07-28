@@ -24,10 +24,13 @@
 #include <osg/PolygonMode>
 #include <osg/Material>
 #include <osg/BlendFunc>
+#include <osgDB/ReadFile>
 
+#if HAVE_EIGEN
 // Eigen includes
 #include <eigen3/Eigen/Core>
 #include <eigen3/Eigen/Geometry>
+#endif
 
 // C++ Standard Library includes
 #include <iostream>
@@ -50,6 +53,13 @@ namespace osgReviz {
  */
 osgViewer::View* createView(int x, int y, int w, int h, osg::Node* scene = NULL);
 
+inline osg::ref_ptr<osg::Node> convertStlToOsgNode(std::string stlFile)
+{
+  osg::ref_ptr<osg::Node> node = osgDB::readNodeFile(stlFile);
+  return node;
+}
+
+#if HAVE_EIGEN
 /**
  * \brief Convert Eigen::Isometry3d matrix to an osg::Matrix.
  * osg::Matrix is transposed.
@@ -98,6 +108,7 @@ inline osg::Vec3 eigToOsgVec3(const Eigen::Vector3d& vec)
   }
   return output;
 }
+#endif
 
 /**
  * \brief Adds a wireframe mode to the node passed in

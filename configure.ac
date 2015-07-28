@@ -186,7 +186,9 @@ dnl Create files
 AC_CONFIG_FILES([Makefile
                 osgReviz/Makefile
                 qtWidgets/Makefile
-                src/Makefile])
+                src/Makefile
+                osgUrdf/Makefile
+                test/Makefile])
 
 
 AC_OUTPUT

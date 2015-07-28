@@ -23,7 +23,7 @@
 // Local includes
 #include "ui_TreeView.h"
 #include "TreeViewReturn.h"
-#include "include/GripTab.h"
+#include "../include/GripTab.h"
 
 /**
  * \namespace User Interface namespace for all the widgets

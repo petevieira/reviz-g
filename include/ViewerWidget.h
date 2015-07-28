@@ -44,7 +44,7 @@ public:
     /**
      * \brief Constructor for ViewerWidget class
      */
-    ViewerWidget(osgViewer::ViewerBase::ThreadingModel threadingModel=osgViewer::CompositeViewer::AutomaticSelection);
+    ViewerWidget(osgViewer::ViewerBase::ThreadingModel threadingModel=osgViewer::CompositeViewer::AutomaticSelection, QWidget *parent = 0);
 
     /**
      * \brief Add a osgQt::GraphicsWindowQt widget to the ViewerWidget

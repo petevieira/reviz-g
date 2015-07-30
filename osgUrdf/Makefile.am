@@ -18,7 +18,8 @@ libosgUrdf_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -
 
 libosgUrdf_la_LIBADD = \
 							$(top_srcdir)/osgReviz/libosgReviz.la \
-							$(OSG_LIBS)
+							$(OSG_LIBS) \
+							$(URDFDOM_LIBS)
 
 libosgUrdf_la_SOURCES = \
 													src/osgUrdf.cpp

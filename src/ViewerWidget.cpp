@@ -31,7 +31,7 @@ void ViewerWidget::addGrid(uint width, uint depth, uint gridSize)
     addNodeToScene(gridGeode);
 }
 
-ViewerWidget::ViewerWidget(osgViewer::ViewerBase::ThreadingModel threadingModel, QWidget *parent) : QWidget(parent)
+ViewerWidget::ViewerWidget(QWidget *parent, osgViewer::ViewerBase::ThreadingModel threadingModel) : QWidget(parent)
 {
 //    switch(threadingModel) {
 //        case 0: std::cerr << "SingleThreaded" << std::endl; break;

@@ -27,7 +27,7 @@
 #include "icons/topView.xpm"
 #include "icons/rightSideView.xpm"
 
-MainWindow::MainWindow() : LAST_LOAD_FILE(QDir::homePath() + "/.revizlastload")
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), LAST_LOAD_FILE(QDir::homePath() + "/.revizlastload")
 {
     configFilePath = new QString(QDir::homePath() + QString("/default.revizconfig"));
     createActions();

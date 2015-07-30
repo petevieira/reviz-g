@@ -2,6 +2,8 @@
 #include "osgReviz/Shapes.h"
 #include "QApplication"
 #include <osg/io_utils>
+#include <QtGui/QMainWindow>
+#include "osgUrdf/osgUrdf.h"
 
 //int callbackTest()
 //{
@@ -55,10 +57,48 @@
 int main( int argc, char** argv )
 {
     QApplication app(argc, argv);
+
+#if 0
+
+    QHBoxLayout* layout = new QHBoxLayout();
+    // QHBoxLayout* mnlayout = new QHBoxLayout();
+    QTabWidget* tab = new QTabWidget();
+    QMainWindow* mainWindow = new QMainWindow(tab);
+    // QMainWindow* launchWindow = new QMainWindow();
+    ViewerWidget* viewWidget = new ViewerWidget(mainWindow);
+
+    layout->addWidget(mainWindow);
+    layout->setSizeConstraint(QLayout::SetMaximumSize);
+    // mnlayout->addWidget(viewWidget);
+    mainWindow->setCentralWidget(viewWidget);
+
+    viewWidget->addNodeToScene(new osgReviz::Sphere(osg::Vec3(0,0,1), 0.5, osg::Vec4(1,0,1,1)));
+    // viewWidget->addGrid(20, 20, 1);
+
+    tab->addTab(mainWindow, QString("ASD"));
+    // tab->addTab(launchWindow, QString("launch"));
+    tab->show();
+
+#else
+    QWidget* window = new QWidget();
+
+    QHBoxLayout* layout = new QHBoxLayout;
+    QMainWindow* mainWindow = new QMainWindow();
     ViewerWidget* viewWidget = new ViewerWidget();
-    viewWidget->setGeometry(100, 100, 800, 600);
-    viewWidget->addNodeToScene(new osgReviz::Sphere(osg::Vec3(0,0,1), 1.0, osg::Vec4(1,0,1,1)));
+
+    layout->addWidget(mainWindow);
+
+    mainWindow->setCentralWidget(viewWidget);
+
+    osgUrdf::Robot* robot = new osgUrdf::Robot();
+    robot->parseRobot("robot.urdf", "/home/pevieira/otherRepos/reviz/test");
+    viewWidget->addNodeToScene(robot);
     viewWidget->addGrid(20, 20, 1);
-    viewWidget->show();
+
+    window->setLayout(layout);
+    window->setGeometry(100, 100, 800, 600);
+    window->show();
+#endif
+
     return app.exec();
 }

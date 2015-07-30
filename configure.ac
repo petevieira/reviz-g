@@ -97,6 +97,9 @@ HAVE_GUI_LIBS="yes"
 OSG_LIBS=""
 HAVE_OSG_LIBS="yes"
 
+URDFDOM_LIBS=""
+HAVE_URDFDOM_LIBS="yes"
+
 # for now assuming a fixed location for QT
 CPPFLAGS="$CPPFLAGS -I/usr/include/qt4"
 CPPFLAGS="$CPPFLAGS -I./osgReviz -I./qtWidgets -I./qtWidgets/ui"
@@ -167,6 +170,11 @@ AC_CHECK_LIB(osgDB, main,
              HAVE_OSG_LIBS="no"
              AC_MSG_WARN([did not find losgDB]))
 
+AC_CHECK_LIB(urdfdom_model, main,
+             URDFDOM_LIBS="$URDFDOM_LIBS -lurdfdom_model",
+             HAVE_URDFDOM_LIBS="no"
+             AC_MSG_WARN([did not find lurdfdom_model]))
+
 AC_CHECK_PROGS(MOC, [moc-qt5 moc-qt4 moc])
 AC_CHECK_PROGS(UIC, [uic-qt5 uic-qt4 uic])
 AC_CHECK_PROGS(RCC, [rcc])
@@ -177,10 +185,12 @@ fi
 AM_CONDITIONAL(HAVE_MODEL_LIBS, [test x$HAVE_MODEL_LIBS == xyes])
 AM_CONDITIONAL(HAVE_GUI_LIBS, [test x$HAVE_GUI_LIBS == xyes])
 AM_CONDITIONAL(HAVE_OSG_LIBS, [test x$HAVE_OSG_LIBS == xyes])
+AM_CONDITIONAL(HAVE_URDFDOM_LIBS, [test x$HAVE_URDFDOM_LIBS == xyes])
 
 AC_SUBST(MODEL_LIBS)
 AC_SUBST(GUI_LIBS)
 AC_SUBST(OSG_LIBS)
+AC_SUBST(URDFDOM_LIBS)
 
 dnl Create files
 AC_CONFIG_FILES([Makefile
@@ -202,5 +212,6 @@ AC_MSG_NOTICE(AC_HELP_STRING([LIBS], [$LIBS]))
 AC_MSG_NOTICE([*************************************************************])
 AC_MSG_NOTICE(AC_HELP_STRING([GUI_LIBS], [$HAVE_GUI_LIBS: $GUI_LIBS]))
 AC_MSG_NOTICE(AC_HELP_STRING([OSG_LIBS], [$HAVE_OSG_LIBS: $OSG_LIBS]))
+AC_MSG_NOTICE(AC_HELP_STRING([URDFDOM_LIBS], [$HAVE_URDFDOM_LIBS: $URDFDOM_LIBS]))
 AC_MSG_NOTICE([*************************************************************])
 

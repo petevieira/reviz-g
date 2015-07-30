@@ -32,7 +32,8 @@ osgviewerQt_LDADD = \
 							$(top_srcdir)/osgUrdf/libosgUrdf.la \
 							$(top_srcdir)/src/libmainwindow.la \
 							$(GUI_LIBS) \
-							$(OSG_LIBS)
+							$(OSG_LIBS) \
+							$(URDFDOM_LIBS)
 
 osgviewerQt_SOURCES = \
 								osgviewerQt.cpp

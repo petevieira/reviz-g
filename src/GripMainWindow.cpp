@@ -29,8 +29,8 @@
 // OpenSceneGraph includes
 #include <osg/io_utils>
 
-GripMainWindow::GripMainWindow(bool debug, std::string sceneFile, std::string configFile) :
-    MainWindow(),
+GripMainWindow::GripMainWindow(QWidget *parent, bool debug, std::string sceneFile, std::string configFile) :
+    MainWindow(parent),
     pluginList(new QList<GripTab*>),
     pluginMenu(new QMenu),
     _debug(debug),
@@ -58,7 +58,7 @@ GripMainWindow::GripMainWindow(bool debug, std::string sceneFile, std::string co
     // createPluginMenu();
 
     /// set the status bar for the Grip Window
-    // this->setStatusBar(this->statusBar());
+    this->setStatusBar(this->statusBar());
 
     // Load config file passed in by user, if specified
     // if (!configFile.empty()) {
@@ -74,6 +74,42 @@ GripMainWindow::GripMainWindow(bool debug, std::string sceneFile, std::string co
     // this->setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));"
                        // "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 cyan, stop:1 blue);}");
 
+}
+
+void GripMainWindow::createRenderingWindow()
+{
+    viewWidget = new ViewerWidget(this);
+    // viewWidget->setGeometry(0, 0, 300, 300);
+    viewWidget->addNodeToScene(new osgReviz::Sphere(osg::Vec3(0,0,0), 1.0, osg::Vec4(1,0,0,1)));
+    viewWidget->addGrid(20, 20, 1);
+    viewWidget->show();
+}
+
+void GripMainWindow::manageLayout()
+{
+    QWidget* widget = new QWidget(this);
+    gridLayout = new QGridLayout;
+
+    /// viewWidget initial size: 800 x 600
+    gridLayout->addWidget(viewWidget, 0, 0, 1, 2);
+
+    // gridLayout->addWidget(playbackWidget, 1, 0);
+
+    widget->setLayout(gridLayout);
+    this->setCentralWidget(widget);
+    this->centralWidget()->show();
+    this->setGeometry(100, 100, 800, 600);
+
+    /// adding tree view
+    // this->addDockWidget(Qt::RightDockWidgetArea, treeviewer);
+
+    /// adding the inspector and visualization tabs
+    // this->setTabPosition(Qt::BottomDockWidgetArea, QTabWidget::North);
+    // this->addDockWidget(Qt::BottomDockWidgetArea, visualizationTab);
+    // this->addDockWidget(Qt::BottomDockWidgetArea, inspectorTab);
+    // tabifyDockWidget(inspectorTab, visualizationTab);
+    // visualizationTab->show();
+    // visualizationTab->raise();
 }
 
 GripMainWindow::~GripMainWindow()
@@ -471,15 +507,6 @@ void GripMainWindow::resetCamera()
     viewWidget->setCameraToHomePosition();
 }
 
-void GripMainWindow::createRenderingWindow()
-{
-    viewWidget = new ViewerWidget();
-    viewWidget->setGeometry(100, 100, 800, 600);
-    viewWidget->show();
-    viewWidget->addNodeToScene(new osgReviz::Sphere(osg::Vec3(0,0,0), 1.0, osg::Vec4(1,0,0,1)));
-    viewWidget->addGrid(20, 20, 1);
-
-}
 
 void GripMainWindow::createTreeView()
 {
@@ -564,30 +591,6 @@ void GripMainWindow::createGround()
 {
 }
 
-void GripMainWindow::manageLayout()
-{
-    QWidget* widget = new QWidget(this);
-    gridLayout = new QGridLayout;
-
-    /// viewWidget initial size: 800 x 600
-    gridLayout->addWidget(viewWidget, 0, 0, 1, 2);
-
-    // gridLayout->addWidget(playbackWidget, 1, 0);
-
-    widget->setLayout(gridLayout);
-    this->setCentralWidget(widget);
-
-    /// adding tree view
-    // this->addDockWidget(Qt::RightDockWidgetArea, treeviewer);
-
-    /// adding the inspector and visualization tabs
-    // this->setTabPosition(Qt::BottomDockWidgetArea, QTabWidget::North);
-    // this->addDockWidget(Qt::BottomDockWidgetArea, visualizationTab);
-    // this->addDockWidget(Qt::BottomDockWidgetArea, inspectorTab);
-    // tabifyDockWidget(inspectorTab, visualizationTab);
-    // visualizationTab->show();
-    // visualizationTab->raise();
-}
 
 void GripMainWindow::createPluginMenu()
 {

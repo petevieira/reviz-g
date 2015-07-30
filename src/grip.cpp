@@ -68,17 +68,20 @@ int main(int argc, char *argv[])
 
     // Start grip
 	QApplication app(argc, argv);
-    GripMainWindow window(debug, sceneFilePath, configFilePath);
-    window.Toolbar();
-    window.show();
+
+    QTabWidget *tab = new QTabWidget();
+    GripMainWindow window(tab, debug, sceneFilePath, configFilePath);
+
+    // window.Toolbar();
+    // window.show();
 
     // Create tabs
-    QTabWidget *tab = new QTabWidget();
-    QWidget *launchTab = new QTabWidget();
+
+    // QWidget *launchTab = new QTabWidget();
 
     // Add tabs to main window
-    tab->addTab(&window, QString("main"));
-    tab->addTab(launchTab, QString("launch"));
+    tab->addTab(&window, QString("Viz"));
+    // tab->addTab(launchTab, QString("launch"));
 
     tab->show();
     return app.exec();

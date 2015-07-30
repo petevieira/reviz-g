@@ -18,6 +18,7 @@
 
 // Local headers
 #include "osgUrdf.h"
+#include <fstream>
 
 using namespace osgUrdf;
 
@@ -37,7 +38,7 @@ void Robot::parseRobot(const std::string &urdfFileName, const std::string &urdfF
   boost::shared_ptr<urdf::ModelInterface> model;
   model = parseUrdfString(urdfFileName, urdfFileDirectory);
   if(!model) {
-    std::cerr << "Null urdf model" << std::endl;
+    std::cerr << __LINE__ << ": Null urdf model" << std::endl;
   }
 
   convertUrdfToOsg(model);
@@ -47,21 +48,40 @@ boost::shared_ptr<urdf::ModelInterface> Robot::parseUrdfString(const std::string
 {
   // Parse urdf file string
   if (urdfFileName.empty()) {
-    std::cerr << "Empty urdf file name" << std::endl;
+    std::cerr << __LINE__ << ": Empty urdf file name" << std::endl;
     // return nullptr;
   }
 
-  _pathToRobot = urdfFileName;
-  std::replace(_pathToRobot.begin(), _pathToRobot.end(), '\\', '/');
-  _pathToRobot = _pathToRobot.substr(0, _pathToRobot.rfind("/") + 1);
+  _pathToRobot = urdfFileDirectory + "/" + urdfFileName;
+  std::cerr << __LINE__ << " Pre Path: " << _pathToRobot << std::endl;
+  // std::replace(_pathToRobot.begin(), _pathToRobot.end(), '\\', '/');
+  // _pathToRobot = _pathToRobot.substr(0, _pathToRobot.rfind("/") + 1);
 
   if (urdfFileDirectory.empty()) {
-    std::cerr << "Empty urdf directory" << std::endl;
+    std::cerr << __LINE__ << ": Empty urdf directory: " << urdfFileDirectory << std::endl;
   }
 
+  std::cerr << __LINE__ << " Post Path: " << _pathToRobot << std::endl;
+
+  std::string xml_model_string;
+  std::fstream xml_file(_pathToRobot.c_str(), std::fstream::in);
+
+  if(!xml_file.good()) {
+    std::cerr << "Could not find file: " << _pathToRobot << std::endl;
+  }
+
+  while(xml_file.good()) {
+    std::string line;
+    std::getline(xml_file, line);
+    xml_model_string += line + "\n";
+  }
+
+  xml_file.close();
+
   // Parse urdf
-  boost::shared_ptr<urdf::ModelInterface> urdfModelPtr = urdf::parseURDF(_pathToRobot);
+  boost::shared_ptr<urdf::ModelInterface> urdfModelPtr = urdf::parseURDF(xml_model_string);
   if (!urdfModelPtr) {
+    std::cerr << __LINE__ << ": null urdf model ptr" << std::endl;
     // return nullptr;
   }
 

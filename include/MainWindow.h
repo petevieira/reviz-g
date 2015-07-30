@@ -46,7 +46,7 @@ public:
     /**
      * \brief Constructs a MainWindow object
      */
-    MainWindow();
+    MainWindow(QWidget *parent = 0);
 
     /**
      * \brief Destructs a MainWindow object

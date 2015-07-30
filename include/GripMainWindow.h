@@ -56,7 +56,7 @@ public:
      * \param configFile String representing the workspace file to load on startup. If empty or
      * unspecified, a workspace will not be loaded.
      */
-    GripMainWindow(bool debug=false, std::string sceneFile="", std::string configFile="");
+    GripMainWindow(QWidget *parent=0, bool debug=false, std::string sceneFile="", std::string configFile="");
 
     /**
      * \brief Destructs a GripMainWindow object

@@ -46,17 +46,17 @@ public:
 
   ~Robot();
 
-  void parseRobot(const std::string &urdfFileName, const std::string &urdfFileDirectory);
+  void parseUrdfRobot(const std::string &urdfFileName, const std::string &urdfFileDirectory);
 
   boost::shared_ptr<urdf::ModelInterface> parseUrdfString(const std::string &urdfFileName, const std::string &urdfFileDirectory);
 
-  void convertUrdfToOsg(const boost::shared_ptr<urdf::ModelInterface> urdfModel);
+  void convertUrdfToOsg(boost::shared_ptr<const urdf::ModelInterface> urdfModel);
 
-  void createRobotRecursively(const boost::shared_ptr<urdf::ModelInterface> urdfModel, const urdf::Link* urdfLink, osg::MatrixTransform* osgJoint);
+  void createRobotRecursively(boost::shared_ptr<const urdf::ModelInterface> urdfModel, boost::shared_ptr<const urdf::Link> urdfLink, osg::MatrixTransform* osgJoint);
 
-  osg::MatrixTransform* createOsgJoint(const boost::shared_ptr<urdf::Joint> urdfJoint);
+  osg::MatrixTransform* createOsgJoint(boost::shared_ptr<const urdf::Joint> urdfJoint);
 
-  osg::Node* createOsgLink(const boost::shared_ptr<urdf::ModelInterface> urdfModel, const boost::shared_ptr<urdf::Joint> urdfJoint);
+  osg::Node* createOsgLink(boost::shared_ptr<const urdf::ModelInterface> urdfModel, boost::shared_ptr<const urdf::Joint> urdfJoint);
 
   std::string getUrdfMeshFilePath(boost::shared_ptr<const urdf::Link> urdfLink);
 
@@ -66,6 +66,7 @@ private:
 
   std::string robotPackageDirectory;
   std::string _pathToRobot;
+  osg::MatrixTransform* _rootTF;
 
 };
 

@@ -56,7 +56,7 @@ public:
 
   osg::MatrixTransform* createOsgJoint(boost::shared_ptr<const urdf::Joint> urdfJoint);
 
-  osg::Node* createOsgLink(boost::shared_ptr<const urdf::ModelInterface> urdfModel, boost::shared_ptr<const urdf::Joint> urdfJoint);
+  osg::Node* createOsgLink(boost::shared_ptr<const urdf::Link> urdfLink);
 
   std::string getUrdfMeshFilePath(boost::shared_ptr<const urdf::Link> urdfLink);
 

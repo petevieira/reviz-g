@@ -35,7 +35,7 @@ Robot::~Robot()
 
 void Robot::parseUrdfRobot(const std::string &urdfFileName, const std::string &urdfFileDirectory)
 {
-  this->robotPackageDirectory = urdfFileDirectory;
+  this->_robotPackageDirectory = urdfFileDirectory;
 
   // get main urdf object
   boost::shared_ptr<urdf::ModelInterface> model;
@@ -106,10 +106,10 @@ void Robot::convertUrdfToOsg(boost::shared_ptr<const urdf::ModelInterface> urdfM
 
   createRobotRecursively(urdfModel, urdfRootLink, _rootTF);
 
-  osg::Matrix mRot, mTrns;
-  mRot.makeRotate(M_PI, osg::Vec3(1, 0, 0));
-  mTrns.makeTranslate(osg::Vec3(0, 0, .5));
-  _rootTF->setMatrix(mRot * mTrns);
+  // osg::Matrix mRot, mTrns;
+  // mRot.makeRotate(M_PI, osg::Vec3(1, 0, 0));
+  // mTrns.makeTranslate(osg::Vec3(0, 0, .5));
+  // _rootTF->setMatrix(mRot * mTrns);
 
 }
 
@@ -156,6 +156,9 @@ osg::Node* Robot::createOsgLink(boost::shared_ptr<const urdf::Link> urdfLink)
   osg::Node* osgLink;
 
   // get urdf mesh file path
+  if (!urdfLink->visual) {
+    return new osg::Node();
+  }
   if (urdfLink->visual->geometry->type == urdf::Geometry::MESH) {
     meshFilePath = getUrdfMeshFilePath(urdfLink);
   } else {
@@ -185,12 +188,16 @@ std::string Robot::getUrdfMeshFilePath(boost::shared_ptr<const urdf::Link> urdfL
     num = meshFilename.find("package://");
     if (num < std::string::npos) {
       meshFilename.erase(num, num+9);
+      meshFilename = this->_robotPackageDirectory + "/../../" + meshFilename;
     } else {
       num = meshFilename.find("file:");
       if (num < std::string::npos) {
         meshFilename.erase(num, num+5);
       } else {
         std::cerr << "Didn't find \"package://\" or \"filename:\"" << std::endl;
+      }
+      if (meshFilename.at(0) != '/') {
+        meshFilename = this->_robotPackageDirectory + "/" + meshFilename;
       }
     }
 

@@ -91,7 +91,9 @@ int main( int argc, char** argv )
     mainWindow->setCentralWidget(viewWidget);
 
     osgUrdf::Robot* robot = new osgUrdf::Robot();
-    robot->parseUrdfRobot("robot.urdf", "/home/pevieira/otherRepos/reviz/test");
+    // robot->parseUrdfRobot("drchubo_v2.urdf", "/home/pevieira/otherRepos/grip2/models/drchubo_v2/robots");
+    robot->parseUrdfRobot("powercube-arm.urdf", "/home/pevieira/Powercube-Arm-Urdf/robots");
+    // robot->parseUrdfRobot("robot.urdf", "./test");
     viewWidget->addNodeToScene(robot);
     viewWidget->addGrid(20, 20, 1);
 

@@ -64,7 +64,7 @@ public:
 
 private:
 
-  std::string robotPackageDirectory;
+  std::string _robotPackageDirectory;
   std::string _pathToRobot;
   osg::MatrixTransform* _rootTF;
 

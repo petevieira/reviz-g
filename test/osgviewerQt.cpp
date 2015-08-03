@@ -4,6 +4,7 @@
 #include <osg/io_utils>
 #include <QtGui/QMainWindow>
 #include "osgUrdf/osgUrdf.h"
+#include "include/GripMainWindow.h"
 
 //int callbackTest()
 //{
@@ -58,26 +59,19 @@ int main( int argc, char** argv )
 {
     QApplication app(argc, argv);
 
-#if 0
+#if 1
 
-    QHBoxLayout* layout = new QHBoxLayout();
-    // QHBoxLayout* mnlayout = new QHBoxLayout();
     QTabWidget* tab = new QTabWidget();
-    QMainWindow* mainWindow = new QMainWindow(tab);
-    // QMainWindow* launchWindow = new QMainWindow();
-    ViewerWidget* viewWidget = new ViewerWidget(mainWindow);
-
-    layout->addWidget(mainWindow);
-    layout->setSizeConstraint(QLayout::SetMaximumSize);
-    // mnlayout->addWidget(viewWidget);
-    mainWindow->setCentralWidget(viewWidget);
-
-    viewWidget->addNodeToScene(new osgReviz::Sphere(osg::Vec3(0,0,1), 0.5, osg::Vec4(1,0,1,1)));
-    // viewWidget->addGrid(20, 20, 1);
-
+    GripMainWindow* mainWindow = new GripMainWindow(tab);
+    QMainWindow* launchWindow = new QMainWindow();
     tab->addTab(mainWindow, QString("ASD"));
-    // tab->addTab(launchWindow, QString("launch"));
-    tab->show();
+    mainWindow->viewWidget->addNodeToScene(new osgReviz::Sphere(osg::Vec3(0,0,1), 0.5, osg::Vec4(1,0,1,1)));
+
+
+    mainWindow->setMinimumSize(tab->width(), tab->height());
+
+    tab->addTab(launchWindow, QString("launch"));
+    tab->showMaximized();
 
 #else
     QWidget* window = new QWidget();

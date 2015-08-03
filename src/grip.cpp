@@ -71,18 +71,15 @@ int main(int argc, char *argv[])
 
     QTabWidget *tab = new QTabWidget();
     GripMainWindow window(tab, debug, sceneFilePath, configFilePath);
-
-    // window.Toolbar();
-    // window.show();
-
-    // Create tabs
-
-    // QWidget *launchTab = new QTabWidget();
+    QMainWindow *launchTab = new QMainWindow();
 
     // Add tabs to main window
     tab->addTab(&window, QString("Viz"));
-    // tab->addTab(launchTab, QString("launch"));
+    tab->addTab(launchTab, QString("launch"));
 
-    tab->show();
+    window.Toolbar();
+    window.setMinimumSize(tab->width(), tab->height());
+
+    tab->showMaximized();
     return app.exec();
 }

@@ -33,7 +33,8 @@ reviz_LDADD = \
 							$(top_srcdir)/osgReviz/libosgReviz.la \
 							$(top_srcdir)/osgUrdf/libosgUrdf.la \
 							$(GUI_LIBS) \
-							$(OSG_LIBS)
+							$(OSG_LIBS) \
+							$(URDFDOM_LIBS)
 
 reviz_SOURCES = \
 								grip.cpp
@@ -41,8 +42,10 @@ reviz_SOURCES = \
 libmainwindow_la_LIBADD = \
 													$(top_srcdir)/qtWidgets/libqtWidgets.la \
 													$(top_srcdir)/osgReviz/libosgReviz.la \
+													$(top_srcdir)/osgUrdf/libosgUrdf.la \
 													$(GUI_LIBS) \
-													$(OSG_LIBS)
+													$(OSG_LIBS) \
+													$(URDFDOM_LIBS)
 
 libmainwindow_la_LIBFLAGS = -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x
 

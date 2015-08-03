@@ -8,6 +8,10 @@
  * Date: June 2015
  */
 
+// Qt includes
+#include <QtGui/QtGui>
+#include <QtGui/QPixmap>
+
 // Local includes
 #include "include/GripMainWindow.h"
 #include "include/ViewerWidget.h"
@@ -21,13 +25,10 @@
 #include "osgReviz/Grid.h"
 #include "osgReviz/Line.h"
 #include "osgReviz/Shapes.h"
+#include "osgUrdf/osgUrdf.h"
 
-// Qt includes
-#include <QtGui/QtGui>
-#include <QtGui/QPixmap>
-
-// OpenSceneGraph includes
-#include <osg/io_utils>
+// // OpenSceneGraph includes
+// #include <osg/io_utils>
 
 GripMainWindow::GripMainWindow(QWidget *parent, bool debug, std::string sceneFile, std::string configFile) :
     MainWindow(parent),
@@ -42,11 +43,11 @@ GripMainWindow::GripMainWindow(QWidget *parent, bool debug, std::string sceneFil
     _recordVideo(false)
 {
     /// object initialization
-    // playbackWidget = new PlaybackWidget(this);
+    playbackWidget = new PlaybackWidget(this);
     // timeline = new std::vector<GripTimeslice>(0);
-    // pluginPathList = new QList<QString*>;
-    // sceneFilePath = new QString();
-    // std::cerr<<sceneFilePath->toStdString()<<std::endl;
+    pluginPathList = new QList<QString*>;
+    sceneFilePath = new QString();
+    std::cerr<<sceneFilePath->toStdString()<<std::endl;
 
     /// create objects for widget classes
     // createTreeView();
@@ -61,16 +62,16 @@ GripMainWindow::GripMainWindow(QWidget *parent, bool debug, std::string sceneFil
     this->setStatusBar(this->statusBar());
 
     // Load config file passed in by user, if specified
-    // if (!configFile.empty()) {
-        // this->loadWorkspace(configFile);
-    // } else {
-        // this->loadWorkspace(configFilePath->toStdString());
-    // }
+    if (!configFile.empty()) {
+        this->loadWorkspace(configFile);
+    } else {
+        this->loadWorkspace(configFilePath->toStdString());
+    }
 
     // Load scene passed in by user, if specified
-    // if (!sceneFile.empty())
-        // this->doLoad(sceneFile);
-    // xga1024x768();
+    if (!sceneFile.empty())
+        this->doLoad(sceneFile);
+    xga1024x768();
     // this->setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));"
                        // "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 cyan, stop:1 blue);}");
 
@@ -79,8 +80,6 @@ GripMainWindow::GripMainWindow(QWidget *parent, bool debug, std::string sceneFil
 void GripMainWindow::createRenderingWindow()
 {
     viewWidget = new ViewerWidget(this);
-    // viewWidget->setGeometry(0, 0, 300, 300);
-    viewWidget->addNodeToScene(new osgReviz::Sphere(osg::Vec3(0,0,0), 1.0, osg::Vec4(1,0,0,1)));
     viewWidget->addGrid(20, 20, 1);
     viewWidget->show();
 }
@@ -93,7 +92,7 @@ void GripMainWindow::manageLayout()
     /// viewWidget initial size: 800 x 600
     gridLayout->addWidget(viewWidget, 0, 0, 1, 2);
 
-    // gridLayout->addWidget(playbackWidget, 1, 0);
+    gridLayout->addWidget(playbackWidget, 1, 0);
 
     widget->setLayout(gridLayout);
     this->setCentralWidget(widget);
@@ -128,7 +127,10 @@ GripMainWindow::~GripMainWindow()
 
 void GripMainWindow::doLoad(std::string sceneFileName)
 {
-    sceneFilePath = new QString(QString::fromStdString(sceneFileName));
+    size_t lastSlashIndex = sceneFileName.find_last_of("/");
+    std::string sceneFileFullPath = sceneFileName.substr(0, lastSlashIndex);
+    sceneFileName = sceneFileName.substr(lastSlashIndex+1, sceneFileName.length());
+    // sceneFilePath = new QString(QString::fromStdString(sceneFileName));
 
     if (_simulating || _playingBack) {
         if (!stopSimulationWithDialog()) {
@@ -137,16 +139,20 @@ void GripMainWindow::doLoad(std::string sceneFileName)
         }
     }
 
-    // viewWidget->addNodeToScene(worldNode);
+    std::cerr << "Dir: " << sceneFileFullPath << "\nFile: " << sceneFileName << std::endl;
+    osgUrdf::Robot *robot = new osgUrdf::Robot();
+    robot->parseUrdfRobot(sceneFileName, sceneFileFullPath);
+
+    viewWidget->addNodeToScene(robot);
 
     // worldNode->printInfo();
 
     // treeviewer->populateTreeView(world);
-    visualizationTab->update();
+    // visualizationTab->update();
 
     if (_debug) std::cout << "--(i) Saving " << sceneFileName << " to ~/.griplastload file (i)--" << std::endl;
     saveText(sceneFileName, LAST_LOAD_FILE);
-    inspectorTab->initializeTab();
+    // inspectorTab->initializeTab();
     this->slotSetStatusBarMessage("Successfully loaded scene " + QString::fromStdString(sceneFileName));
 
     // Tell all the tabs that a new scene has been loaded

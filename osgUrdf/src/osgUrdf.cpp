@@ -92,16 +92,9 @@ boost::shared_ptr<urdf::ModelInterface> Robot::parseUrdfString(const std::string
 void Robot::convertUrdfToOsg(boost::shared_ptr<const urdf::ModelInterface> urdfModel)
 {
   boost::shared_ptr<const urdf::Link> urdfRootLink = urdfModel->getRoot();
-  std::cerr << "Root Link: " << urdfRootLink->name << std::endl;
-  // boost::shared_ptr<const urdf::Joint> urdfRootJoint = urdfRootLink->parent_joint;
-
-  // _rootTF = new osg::MatrixTransform(urdfPoseToOsgMatrix(urdfRootJoint->parent_to_joint_origin_transform));
-  // this->addChild(_rootTF);
-  // _rootTF->addChild(createOsgLink(urdfModel, urdfRootJoint));
 
   _rootTF = new osg::MatrixTransform();
   this->addChild(_rootTF);
-  std::cerr << "rootTF: \n" << _rootTF->getMatrix() << std::endl;
   _rootTF->addChild(createOsgLink(urdfRootLink));
 
   createRobotRecursively(urdfModel, urdfRootLink, _rootTF);
@@ -115,8 +108,6 @@ void Robot::convertUrdfToOsg(boost::shared_ptr<const urdf::ModelInterface> urdfM
 
 void Robot::createRobotRecursively(boost::shared_ptr<const urdf::ModelInterface> urdfModel, boost::shared_ptr<const urdf::Link> urdfLink, osg::MatrixTransform* osgJoint)
 {
-  std::cerr << "Link: " << urdfLink->name << ". # Children: " << urdfLink->child_joints.size() << std::endl;
-
   for (size_t i = 0; i < urdfLink->child_joints.size(); ++i) {
 
     // get joint i of passed-in link
@@ -125,7 +116,6 @@ void Robot::createRobotRecursively(boost::shared_ptr<const urdf::ModelInterface>
 
     osg::MatrixTransform *osgChildJoint;
     osg::Node *osgChildLink;
-    std::cerr << "    Child[" << i << "]: " << urdfModel->getLink(urdfJoint->child_link_name)->name << std::endl;  
 
     // create osg child joint
     osgChildJoint = createOsgJoint(urdfJoint);
@@ -145,7 +135,6 @@ osg::MatrixTransform* Robot::createOsgJoint(boost::shared_ptr<const urdf::Joint>
   osg::MatrixTransform *osgJoint = new osg::MatrixTransform;
 
   osgJoint->setMatrix(urdfPoseToOsgMatrix(urdfJoint->parent_to_joint_origin_transform));
-  std::cerr << urdfJoint->name << ": \n" << osgJoint->getMatrix() << std::endl;
 
   return osgJoint;
 }
@@ -193,16 +182,12 @@ std::string Robot::getUrdfMeshFilePath(boost::shared_ptr<const urdf::Link> urdfL
       num = meshFilename.find("file:");
       if (num < std::string::npos) {
         meshFilename.erase(num, num+5);
-      } else {
-        std::cerr << "Didn't find \"package://\" or \"filename:\"" << std::endl;
       }
       if (meshFilename.at(0) != '/') {
         meshFilename = this->_robotPackageDirectory + "/" + meshFilename;
       }
     }
 
-    // meshFilename = this->robotPackageDirectory + meshFilename;
-    std::cerr << "Meshfile: " << meshFilename << std::endl;
     return meshFilename;
   } else {
     std::cout << "The URDF for link claims to be a mesh but cannot by dynamically casted as on!" << std::endl;
@@ -213,7 +198,7 @@ std::string Robot::getUrdfMeshFilePath(boost::shared_ptr<const urdf::Link> urdfL
 osg::Matrix Robot::urdfPoseToOsgMatrix(const urdf::Pose urdfPose)
 {
   osg::Matrix osgPose;
-  std::cerr << "TF: " << urdfPose.position.x << ", " << urdfPose.position.y << ", " << urdfPose.position.z << " | " << urdfPose.rotation.w << ", " << urdfPose.rotation.x << ", " << urdfPose.rotation.y << ", " << urdfPose.rotation.z << std::endl;
+  // std::cerr << "TF: " << urdfPose.position.x << ", " << urdfPose.position.y << ", " << urdfPose.position.z << " | " << urdfPose.rotation.w << ", " << urdfPose.rotation.x << ", " << urdfPose.rotation.y << ", " << urdfPose.rotation.z << std::endl;
   osgPose.makeTranslate(urdfPose.position.x,
                         urdfPose.position.y,
                         urdfPose.position.z);

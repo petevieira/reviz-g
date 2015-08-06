@@ -25,6 +25,7 @@
 #include "osgReviz/Grid.h"
 #include "osgReviz/Line.h"
 #include "osgReviz/Shapes.h"
+#include "osgReviz/Picker.h"
 #include "osgUrdf/osgUrdf.h"
 
 // // OpenSceneGraph includes
@@ -72,14 +73,13 @@ GripMainWindow::GripMainWindow(QWidget *parent, bool debug, std::string sceneFil
     if (!sceneFile.empty())
         this->doLoad(sceneFile);
     xga1024x768();
-    // this->setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));"
-                       // "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 cyan, stop:1 blue);}");
 
 }
 
 void GripMainWindow::createRenderingWindow()
 {
     viewWidget = new ViewerWidget(this);
+    viewWidget->getView(0)->addEventHandler(new osgReviz::Picker(viewWidget->getView(0)));
     viewWidget->addGrid(20, 20, 1);
     viewWidget->show();
 }

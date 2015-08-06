@@ -33,3 +33,5 @@ ui_*.h
 stamp-h1
 *.m4
 src/reviz
+src/qrc-resources.cc
+qtWidgets/qrc-resources.cc

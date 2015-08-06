@@ -161,9 +161,9 @@ osg::Node* Robot::createOsgLink(boost::shared_ptr<const urdf::Link> urdfLink)
     std::cerr << "Null osgLink" << std::endl;
   }
 
-  // osgLink->getOrCreateStateSet()->setAttribute(new osg::Material);
-  // osg::Material* mat = (osg::Material*)osgLink->getOrCreateStateSet()->getAttribute(osg::StateAttribute::MATERIAL);
-  // mat->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4f(.5, .5, .5, 1.0));
+  osgLink->setName(urdfLink->name);
+  std::cerr << "Using name: " << urdfLink->name << std::endl;
+
   return osgLink;
 }
 

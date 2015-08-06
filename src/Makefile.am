@@ -53,7 +53,11 @@ libmainwindow_la_SOURCES =	\
 														ViewerWidget.cpp \
 														GripMainWindow.cpp \
 														moc_MainWindow.cc MainWindow.cpp \
-														GripTimeslice.cpp
+														GripTimeslice.cpp \
+           qrc-resources.cc
 
 moc_MainWindow.cc:	$(top_srcdir)/include/MainWindow.h
 					@MOC@ -o $@ $<
+
+qrc-resources.cc: ../resources/qtResources.qrc
+	@RCC@ -o $@ $<

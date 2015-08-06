@@ -81,5 +81,20 @@ int main(int argc, char *argv[])
     window.setMinimumSize(tab->width(), tab->height());
 
     tab->showMaximized();
+
+    QFile File("resources/dark-orange.qss");
+    if (!File.open(QFile::ReadOnly)) {
+      std::cerr << "Error opening " << File.fileName().toStdString() << std::endl;
+      exit(-1);
+    }
+    QString styleSheet = QLatin1String(File.readAll());
+    if (styleSheet.isEmpty()) {
+      std::cerr << "Failed to read " << File.fileName().toStdString() << std::endl;
+      exit(-1);
+    }
+
+    app.setStyleSheet(styleSheet);
+    window.setStyleSheet(styleSheet);
+
     return app.exec();
 }

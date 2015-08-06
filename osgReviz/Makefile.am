@@ -23,4 +23,5 @@ libosgReviz_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x 
 libosgReviz_la_SOURCES = \
 													src/Grid.cpp \
 													src/osgUtils.cpp \
-													src/GripCameraManipulator.cpp
+													src/GripCameraManipulator.cpp \
+													src/Picker.cpp

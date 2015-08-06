@@ -6,4 +6,3 @@ SUBDIRS =	\
 					osgUrdf \
 					src \
 					test
-

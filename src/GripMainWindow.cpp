@@ -76,6 +76,12 @@ GripMainWindow::GripMainWindow(QWidget *parent, bool debug, std::string sceneFil
 
 }
 
+// void GripMainWindow::resizeEvent(QResizeEvent *event)
+// {
+    // QMainWindow::resizeEvent(event);
+    // this->setMinimumSize(parent->width(), parent->height());
+// }
+
 void GripMainWindow::createRenderingWindow()
 {
     viewWidget = new ViewerWidget(this);

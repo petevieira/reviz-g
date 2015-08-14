@@ -69,18 +69,60 @@ int main(int argc, char *argv[])
     // Start grip
 	QApplication app(argc, argv);
 
-    QTabWidget *tab = new QTabWidget();
-    GripMainWindow window(tab, debug, sceneFilePath, configFilePath);
+#if 0
+
+    printf("%d\n", debug);
+    QMainWindow *gui = new QMainWindow();
+    gui->setDockOptions(QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
+    gui->setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
+
+    GripMainWindow *window  = new GripMainWindow(gui, debug, sceneFilePath, configFilePath);
     QMainWindow *launchTab = new QMainWindow();
+    QMainWindow *evrTab = new QMainWindow();
+
+    QDockWidget *dw1 = new QDockWidget("Reviz", gui);
+    QDockWidget *dw2 = new QDockWidget("Launch", gui);
+    QDockWidget *dw3 = new QDockWidget("EVRs", gui);
+
+    dw1->setWidget(window);
+    dw2->setWidget(launchTab);
+    dw3->setWidget(evrTab);
+
+    gui->addDockWidget(Qt::TopDockWidgetArea, dw1);
+    gui->addDockWidget(Qt::TopDockWidgetArea, dw2);
+    gui->addDockWidget(Qt::TopDockWidgetArea, dw3);
+    gui->tabifyDockWidget(dw1, dw2);
+    gui->tabifyDockWidget(dw2, dw3);
+    dw1->raise();
 
     // Add tabs to main window
-    tab->addTab(&window, QString("Viz"));
-    tab->addTab(launchTab, QString("launch"));
+    // tab->addTab(window, QString("Viz"));
+    // tab->addTab(launchTab, QString("launch"));
+    // tab->addTab(evrTab, QString("evr"));
 
-    window.Toolbar();
-    window.setMinimumSize(tab->width(), tab->height());
+    window->Toolbar();
+    // window->setMinimumSize(dw1->width(), dw1->height());
+
+    // tab->showMaximized();
+    gui->showMaximized();
+
+#else
+    QTabWidget *tab = new QTabWidget();
+    GripMainWindow *window  = new GripMainWindow(tab, debug, sceneFilePath, configFilePath);
+    QMainWindow *launchTab = new QMainWindow();
+    QMainWindow *evrTab = new QMainWindow();
+
+    // Add tabs to main window
+    tab->addTab(window, QString("Viz"));
+    tab->addTab(launchTab, QString("launch"));
+    tab->addTab(evrTab, QString("evr"));
+
+    window->Toolbar();
+    window->setMinimumSize(tab->width(), tab->height());
 
     tab->showMaximized();
+
+#endif
 
     QFile File("resources/dark-orange.qss");
     if (!File.open(QFile::ReadOnly)) {
@@ -94,7 +136,6 @@ int main(int argc, char *argv[])
     }
 
     app.setStyleSheet(styleSheet);
-    window.setStyleSheet(styleSheet);
 
     return app.exec();
 }

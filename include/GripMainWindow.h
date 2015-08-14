@@ -69,6 +69,8 @@ public:
      */
     void createGround();
 
+    // void resizeEvent(QResizeEvent *event);
+
     /// OpenSceneGraph Qt composite viewer widget, which can hold more than one view
     ViewerWidget *viewWidget;
 

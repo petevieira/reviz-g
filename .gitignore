@@ -35,3 +35,4 @@ stamp-h1
 src/reviz
 src/qrc-resources.cc
 qtWidgets/qrc-resources.cc
+test/osgviewerQt

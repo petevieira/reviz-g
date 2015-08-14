@@ -26,7 +26,7 @@
 // #include "icons/revol.xpm"
 // #include "icons/robot.xpm"
 
-TreeView::TreeView(QWidget *parent, QList<GripTab*>* tabs) :QDockWidget(parent), _ui(new Ui::TreeView)
+TreeView::TreeView(QWidget *parent, QList<RevizTab*>* tabs) :QDockWidget(parent), _ui(new Ui::TreeView)
 {
     _activeItem = new TreeViewReturn;
     _tabs = tabs;
@@ -54,7 +54,7 @@ void TreeView::treeViewItemSelected(QTreeWidgetItem * item, int column)
 
     emit itemSelected(_activeItem);
     for (int i = 0; i < _tabs->size(); ++i) {
-        _tabs->at(i)->GRIPEventTreeViewSelectionChanged();
+        _tabs->at(i)->REVIZEventTreeViewSelectionChanged();
     }
 }
 

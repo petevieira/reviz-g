@@ -4,7 +4,7 @@
 #include <osg/io_utils>
 #include <QtGui/QMainWindow>
 #include "osgUrdf/osgUrdf.h"
-#include "include/GripMainWindow.h"
+#include "include/RevizMainWindow.h"
 
 //int callbackTest()
 //{
@@ -62,7 +62,7 @@ int main( int argc, char** argv )
 #if 1
 
     QTabWidget* tab = new QTabWidget();
-    GripMainWindow* mainWindow = new GripMainWindow(tab);
+    RevizMainWindow* mainWindow = new RevizMainWindow(tab);
     QMainWindow* launchWindow = new QMainWindow();
     tab->addTab(mainWindow, QString("ASD"));
     mainWindow->viewWidget->addNodeToScene(new osgReviz::Sphere(osg::Vec3(0,0,1), 0.5, osg::Vec4(1,0,1,1)));

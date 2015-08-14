@@ -37,7 +37,7 @@ reviz_LDADD = \
 							$(URDFDOM_LIBS)
 
 reviz_SOURCES = \
-								grip.cpp
+								reviz.cpp
 
 libmainwindow_la_LIBADD = \
 													$(top_srcdir)/qtWidgets/libqtWidgets.la \
@@ -51,7 +51,7 @@ libmainwindow_la_LIBFLAGS = -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x
 
 libmainwindow_la_SOURCES =	\
 														ViewerWidget.cpp \
-														GripMainWindow.cpp \
+														RevizMainWindow.cpp \
 														moc_MainWindow.cc MainWindow.cpp \
 														GripTimeslice.cpp \
            qrc-resources.cc

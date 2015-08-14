@@ -9,13 +9,13 @@
  */
 
 /**
- * \file GripTab.h
- * \brief GripTab declares virtual functions and contains some useful member pointers to
- * objects in the main window of grip. Users making plugins need to subclass this class
+ * \file RevizTab.h
+ * \brief RevizTab declares virtual functions and contains some useful member pointers to
+ * objects in the main window of reviz. Users making plugins need to subclass this class
  */
 
-#ifndef GRIPTAB_H
-#define GRIPTAB_H
+#ifndef REVIZTAB_H
+#define REVIZTAB_H
 
 // Local includes
 #include "TreeViewReturn.h"
@@ -27,11 +27,11 @@
 
 
 /**
- * \class GripTab GripTab.h
+ * \class RevizTab RevizTab.h
  * \brief This class is used as an interface for defining plugins
  * The aim is to ensure that all methods declared in this class are defined in the plugins
  */
-class GripTab : public QDockWidget
+class RevizTab : public QDockWidget
 {
 protected:
     /// pointer to the object selected in the Tree View
@@ -47,7 +47,7 @@ public:
     virtual void Refresh() = 0;
 
     /**
-     * \brief called from the main window whenever the plugin is added to grip
+     * \brief called from the main window whenever the plugin is added to reviz
      * This is initalize the members of the class
      * \param ret Pointer to object returned by the TreeView
      * \param viewer Pointer to composite viewer object where things are rendered
@@ -62,68 +62,68 @@ public:
     }
 
     /**
-     * \brief called when a new scene file (urdf, sdf) is loaded into Grip.
+     * \brief called when a new scene file (urdf, sdf) is loaded into Reviz.
      * This signifies that there are skeletons in the world, the viewer is displaying
      * the objects in the world and the TreeView is populated
      */
-    virtual void GRIPEventSceneLoaded(){}
+    virtual void REVIZEventSceneLoaded(){}
 
     /**
      * \brief called from the main window whenever the simulation is executing
      * This method is executed before every simulation time step
      */
-    virtual void GRIPEventSimulationBeforeTimestep(){}
+    virtual void REVIZEventSimulationBeforeTimestep(){}
 
     /**
      * \brief called from the main window whenever the simulation is executing
      * This method is executed after every simulation time step
      */
-    virtual void GRIPEventSimulationAfterTimestep(){}
+    virtual void REVIZEventSimulationAfterTimestep(){}
 
     /**
      * \brief called from the main window whenever the simulation is executing
      * This method is executed at the start of the simulation
      */
-    virtual void GRIPEventSimulationStart(){}
+    virtual void REVIZEventSimulationStart(){}
 
     /**
      * \brief called from the main window whenever the simulation is executing
      * This method is executed at the end of the simulation
      */
-    virtual void GRIPEventSimulationStop(){}
+    virtual void REVIZEventSimulationStop(){}
 
 
     /**
      * \brief called from the main window whenever the simulation history slider is being played
      * This method is executed before every playback time step
      */
-    virtual void GRIPEventPlaybackBeforeFrame(){}
+    virtual void REVIZEventPlaybackBeforeFrame(){}
 
     /**
      * \brief called from the main window whenever the simulation history slider is being played
      * This method is executed after every playback time step
      */
-    virtual void GRIPEventPlaybackAfterFrame(){}
+    virtual void REVIZEventPlaybackAfterFrame(){}
 
     /**
      * \brief called from the main window whenever the simulation history slider is being played
      * This method is executed at the start of the playback
      */
-    virtual void GRIPEventPlaybackStart(){}
+    virtual void REVIZEventPlaybackStart(){}
 
     /**
      * \brief called from the main window whenever the simulation history slider is being played
      * This method is executed at the end of the playback
      */
-    virtual void GRIPEventPlaybackStop(){}
+    virtual void REVIZEventPlaybackStop(){}
 
     /**
      * \brief called from the main window when a new object is selected in the treeview
      */
-    virtual void GRIPEventTreeViewSelectionChanged(){}
+    virtual void REVIZEventTreeViewSelectionChanged(){}
 };
 
-Q_DECLARE_INTERFACE(GripTab,
-                    "com.gatech.Grip2.GripTab/1.0")
+Q_DECLARE_INTERFACE(RevizTab,
+                    "jpl.nasa.gov.Reviz2.RevizTab/1.0")
 
-#endif // GRIPTAB_H
+#endif // REVIZTAB_H

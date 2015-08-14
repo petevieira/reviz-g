@@ -23,7 +23,7 @@
 // Local includes
 #include "ui_TreeView.h"
 #include "TreeViewReturn.h"
-#include "../include/GripTab.h"
+#include "../include/RevizTab.h"
 
 /**
  * \namespace User Interface namespace for all the widgets
@@ -47,7 +47,7 @@ class TreeView : public QDockWidget
     Q_OBJECT
     
 public:
-    explicit TreeView(QWidget *parent = 0, QList<GripTab*>* tabs = NULL);
+    explicit TreeView(QWidget *parent = 0, QList<RevizTab*>* tabs = NULL);
     // void populateTreeView();
     void reset();
     ~TreeView();
@@ -65,7 +65,7 @@ private:
     QTreeWidget *_ui_treeWidget;
     QCheckBox *_ui_checkBox;
     TreeViewReturn *_activeItem;
-    QList<GripTab*> *_tabs;
+    QList<RevizTab*> *_tabs;
 
     // QTreeWidgetItem* _addParent(dart::dynamics::Skeleton *skel, QIcon icon, int skeletonId);
     // QTreeWidgetItem* _addChildItem(dart::dynamics::BodyNode* node, QTreeWidgetItem *parent, QIcon icon, int skeletonId);

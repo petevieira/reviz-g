@@ -9,12 +9,12 @@
  */
 
 /**
- * \file GripMainWindow.h
- * \brief Main window for Grip
+ * \file RevizMainWindow.h
+ * \brief Main window for Reviz
  */
 
-#ifndef GRIPMAINWINDOW_H
-#define GRIPMAINWINDOW_H
+#ifndef REVIZMAINWINDOW_H
+#define REVIZMAINWINDOW_H
 
 // C++ Standard includes
 #include <iostream>
@@ -25,7 +25,7 @@
 
 // Local includes
 #include "ViewerWidget.h"
-#include "GripTab.h"
+#include "RevizTab.h"
 #include "qtWidgets/TreeView.h"
 #include "qtWidgets/InspectorTab.h"
 #include "qtWidgets/VisualizationTab.h"
@@ -40,15 +40,15 @@
 #include <QtXml/QtXml>
 
 /**
- * \class GripMainWindow GripMainWindow.h
+ * \class RevizMainWindow RevizMainWindow.h
  * \brief Class that subclasses MainWindow in order to create the whole
- * Grip interface.
+ * Reviz interface.
  */
-class GripMainWindow : public MainWindow
+class RevizMainWindow : public MainWindow
 {
 public:
     /**
-     * \brief Constructs a GripMainWindow object
+     * \brief Constructs a RevizMainWindow object
      * \param debug Whether or not to print debug statements. This gets passed to
      * local class objects
      * \param sceneFile String representing the scene file to load on startup. If empty or
@@ -56,12 +56,12 @@ public:
      * \param configFile String representing the workspace file to load on startup. If empty or
      * unspecified, a workspace will not be loaded.
      */
-    GripMainWindow(QWidget *parent=0, bool debug=false, std::string sceneFile="", std::string configFile="");
+    RevizMainWindow(QWidget *parent=0, bool debug=false, std::string sceneFile="", std::string configFile="");
 
     /**
-     * \brief Destructs a GripMainWindow object
+     * \brief Destructs a RevizMainWindow object
      */
-    ~GripMainWindow();
+    ~RevizMainWindow();
 
     /**
      * \brief Convenience function for creating a ground skeleton
@@ -256,7 +256,7 @@ protected:
     /// Once a pointer of type GripTab is created you can then call the function directly.
 
     /// List pointers to users' plugins
-    QList<GripTab*> *pluginList;
+    QList<RevizTab*> *pluginList;
 
     /// Plugin menu pointer for showing/hiding plugins
 	QMenu *pluginMenu;
@@ -399,4 +399,4 @@ protected:
 };
 
 
-#endif // GRIPMAINWINDOW_H
+#endif // REVIZMAINWINDOW_H

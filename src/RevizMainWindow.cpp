@@ -13,7 +13,7 @@
 #include <QtGui/QPixmap>
 
 // Local includes
-#include "include/GripMainWindow.h"
+#include "include/RevizMainWindow.h"
 #include "include/ViewerWidget.h"
 #include "qtWidgets/VisualizationTab.h"
 #include "qtWidgets/ui_VisualizationTab.h"
@@ -31,9 +31,9 @@
 // // OpenSceneGraph includes
 // #include <osg/io_utils>
 
-GripMainWindow::GripMainWindow(QWidget *parent, bool debug, std::string sceneFile, std::string configFile) :
+RevizMainWindow::RevizMainWindow(QWidget *parent, bool debug, std::string sceneFile, std::string configFile) :
     MainWindow(parent),
-    pluginList(new QList<GripTab*>),
+    pluginList(new QList<RevizTab*>),
     pluginMenu(new QMenu),
     _debug(debug),
     _simulating(false),
@@ -76,13 +76,13 @@ GripMainWindow::GripMainWindow(QWidget *parent, bool debug, std::string sceneFil
 
 }
 
-// void GripMainWindow::resizeEvent(QResizeEvent *event)
+// void RevizMainWindow::resizeEvent(QResizeEvent *event)
 // {
     // QMainWindow::resizeEvent(event);
     // this->setMinimumSize(parent->width(), parent->height());
 // }
 
-void GripMainWindow::createRenderingWindow()
+void RevizMainWindow::createRenderingWindow()
 {
     viewWidget = new ViewerWidget(this);
     viewWidget->getView(0)->addEventHandler(new osgReviz::Picker(viewWidget->getView(0)));
@@ -90,7 +90,7 @@ void GripMainWindow::createRenderingWindow()
     viewWidget->show();
 }
 
-void GripMainWindow::manageLayout()
+void RevizMainWindow::manageLayout()
 {
     QWidget* widget = new QWidget(this);
     gridLayout = new QGridLayout;
@@ -117,7 +117,7 @@ void GripMainWindow::manageLayout()
     // visualizationTab->raise();
 }
 
-GripMainWindow::~GripMainWindow()
+RevizMainWindow::~RevizMainWindow()
 {
     // delete pluginList;
     // delete pluginMenu;
@@ -131,7 +131,7 @@ GripMainWindow::~GripMainWindow()
     // delete treeviewer;
 }
 
-void GripMainWindow::doLoad(std::string sceneFileName)
+void RevizMainWindow::doLoad(std::string sceneFileName)
 {
     size_t lastSlashIndex = sceneFileName.find_last_of("/");
     std::string sceneFileFullPath = sceneFileName.substr(0, lastSlashIndex);
@@ -156,24 +156,24 @@ void GripMainWindow::doLoad(std::string sceneFileName)
     // treeviewer->populateTreeView(world);
     // visualizationTab->update();
 
-    if (_debug) std::cout << "--(i) Saving " << sceneFileName << " to ~/.griplastload file (i)--" << std::endl;
+    if (_debug) std::cout << "--(i) Saving " << sceneFileName << " to ~/.revizlastload file (i)--" << std::endl;
     saveText(sceneFileName, LAST_LOAD_FILE);
     // inspectorTab->initializeTab();
     this->slotSetStatusBarMessage("Successfully loaded scene " + QString::fromStdString(sceneFileName));
 
     // Tell all the tabs that a new scene has been loaded
     for (int i = 0; i < pluginList->size(); ++i) {
-        pluginList->at(i)->GRIPEventSceneLoaded();
+        pluginList->at(i)->REVIZEventSceneLoaded();
     }
 }
 
-void GripMainWindow::close()
+void RevizMainWindow::close()
 {
     std::cerr << "Closing" << std::endl;
     clear();
 }
 
-bool GripMainWindow::stopSimulationWithDialog()
+bool RevizMainWindow::stopSimulationWithDialog()
 {
     // Ask user if they really want to end the simulation and load a new world
     QMessageBox msgBox;
@@ -208,7 +208,7 @@ bool GripMainWindow::stopSimulationWithDialog()
     return true;
 }
 
-void GripMainWindow::clear()
+void RevizMainWindow::clear()
 {
     // if (world) {
     //     worldNode->reset();
@@ -227,7 +227,7 @@ void GripMainWindow::clear()
     // }
 }
 
-void GripMainWindow::simulationStopped()
+void RevizMainWindow::simulationStopped()
 {
     if(_debug) std::cerr << "Got simulationStopped signal" << std::endl;
     _simulating = false;
@@ -236,7 +236,7 @@ void GripMainWindow::simulationStopped()
     // playbackWidget->setSliderValue(timeline->size() - 1);
 }
 
-void GripMainWindow::slotSetWorldFromPlayback(int sliderTick)
+void RevizMainWindow::slotSetWorldFromPlayback(int sliderTick)
 {
     // if (_simulating || timeline->size() <= 0) {
     //     playbackWidget->setSliderValue(0);
@@ -250,7 +250,7 @@ void GripMainWindow::slotSetWorldFromPlayback(int sliderTick)
     // playbackWidget->slotUpdateSliderMinMax(0, timeline->size() - 1);
 }
 
-void GripMainWindow::slotPlaybackStart()
+void RevizMainWindow::slotPlaybackStart()
 {
     // if (timeline->size() <= 0) {
         // return;
@@ -270,14 +270,14 @@ void GripMainWindow::slotPlaybackStart()
     _simulationDirty = true;
 
     for (int i = 0; i < pluginList->size(); ++i) {
-        pluginList->at(i)->GRIPEventPlaybackStart();
+        pluginList->at(i)->REVIZEventPlaybackStart();
     }
 
     _playingBack = true;
     this->slotPlaybackTimeStep(true);
 }
 
-void GripMainWindow::slotPlaybackPause()
+void RevizMainWindow::slotPlaybackPause()
 {
     // if (timeline->size() <= 0 || !_playingBack) {
         // return;
@@ -288,11 +288,11 @@ void GripMainWindow::slotPlaybackPause()
     _playingBack = false;
 
     for (int i = 0; i < pluginList->size(); ++i) {
-        pluginList->at(i)->GRIPEventPlaybackStop();
+        pluginList->at(i)->REVIZEventPlaybackStop();
     }
 }
 
-void GripMainWindow::slotPlaybackReverse()
+void RevizMainWindow::slotPlaybackReverse()
 {
     // if (timeline->size() <= 0) {
         // return;
@@ -315,14 +315,14 @@ void GripMainWindow::slotPlaybackReverse()
     _curPlaybackTick = playbackWidget->getSliderValue();
 
     for (int i = 0; i < pluginList->size(); ++i) {
-        pluginList->at(i)->GRIPEventPlaybackStart();
+        pluginList->at(i)->REVIZEventPlaybackStart();
     }
 
     _playingBack = true;
     this->slotPlaybackTimeStep(false);
 }
 
-void GripMainWindow::slotPlaybackBeginning()
+void RevizMainWindow::slotPlaybackBeginning()
 {
     // if (timeline->size() <= 0) {
         // return;
@@ -339,7 +339,7 @@ void GripMainWindow::slotPlaybackBeginning()
     // playbackWidget->slotSetTimeDisplays(world->getTime(), 0);
 }
 
-void GripMainWindow::slotPlaybackTimeStep(bool playForward)
+void RevizMainWindow::slotPlaybackTimeStep(bool playForward)
 {
     if (_playingBack) {
 
@@ -348,7 +348,7 @@ void GripMainWindow::slotPlaybackTimeStep(bool playForward)
 
         // Call user tab functions before time step
         for (int i = 0; i < pluginList->size(); ++i) {
-            pluginList->at(i)->GRIPEventPlaybackBeforeFrame();
+            pluginList->at(i)->REVIZEventPlaybackBeforeFrame();
         }
 
         // Play time step
@@ -376,7 +376,7 @@ void GripMainWindow::slotPlaybackTimeStep(bool playForward)
 
         // Call user tab functions after time step
         for (int i = 0; i < pluginList->size(); ++i) {
-            pluginList->at(i)->GRIPEventPlaybackAfterFrame();
+            pluginList->at(i)->REVIZEventPlaybackAfterFrame();
         }
 
     } else {
@@ -390,7 +390,7 @@ void GripMainWindow::slotPlaybackTimeStep(bool playForward)
                               Qt::QueuedConnection, Q_ARG(bool, playForward));
 }
 
-int GripMainWindow::saveText(std::string scenepath, const QString &filename)
+int RevizMainWindow::saveText(std::string scenepath, const QString &filename)
 {
     try {
         QFile file(filename);
@@ -407,22 +407,22 @@ int GripMainWindow::saveText(std::string scenepath, const QString &filename)
     return 1;
 }
 
-void GripMainWindow::front()
+void RevizMainWindow::front()
 {
     viewWidget->setToFrontView();
 }
 
-void GripMainWindow::top()
+void RevizMainWindow::top()
 {
     viewWidget->setToTopView();
 }
 
-void GripMainWindow::side()
+void RevizMainWindow::side()
 {
     viewWidget->setToSideView();
 }
 
-void GripMainWindow::xga1024x768()
+void RevizMainWindow::xga1024x768()
 {
     if(!xga1024x768Act->isChecked())
         recordSize = QSize(1024, 760);
@@ -437,7 +437,7 @@ void GripMainWindow::xga1024x768()
     }
 }
 
-void GripMainWindow::vga640x480()
+void RevizMainWindow::vga640x480()
 {
     if(!vga640x480Act->isChecked())
         recordSize = QSize(640, 472);
@@ -452,7 +452,7 @@ void GripMainWindow::vga640x480()
     }
 }
 
-void GripMainWindow::hd1280x720()
+void RevizMainWindow::hd1280x720()
 {
     if(!hd1280x720Act->isChecked())
         recordSize = QSize(1280, 712);
@@ -467,7 +467,7 @@ void GripMainWindow::hd1280x720()
     }
 }
 
-void GripMainWindow::startSimulation()
+void RevizMainWindow::startSimulation()
 {
     if (_playingBack) {
         slotSetStatusBarMessage(tr("Stop playback first"));
@@ -475,14 +475,14 @@ void GripMainWindow::startSimulation()
     }
 }
 
-void GripMainWindow::stopSimulation()
+void RevizMainWindow::stopSimulation()
 {
     _simulating = false;
     // FIXME: Maybe use qsignalmapping or std::map for this
     swapStartStopButtons();
 }
 
-void GripMainWindow::swapStartStopButtons()
+void RevizMainWindow::swapStartStopButtons()
 {
     if (this->_getToolBar()->actions().at(3)->isVisible()) {
         this->_getToolBar()->actions().at(3)->setVisible(false);
@@ -493,39 +493,39 @@ void GripMainWindow::swapStartStopButtons()
     }
 }
 
-void GripMainWindow::simulateSingleStep()
+void RevizMainWindow::simulateSingleStep()
 {
 }
 
-void GripMainWindow::renderDuringSimulation(){}
+void RevizMainWindow::renderDuringSimulation(){}
 
-void GripMainWindow::white()
+void RevizMainWindow::white()
 {
     viewWidget->setBackgroundColor(osg::Vec4(1, 1, 1, 1));
 }
 
-void GripMainWindow::gray()
+void RevizMainWindow::gray()
 {
     viewWidget->setBackgroundColor(osg::Vec4(.5, .5, .5, 1));
 }
 
-void GripMainWindow::black()
+void RevizMainWindow::black()
 {
     viewWidget->setBackgroundColor(osg::Vec4(0, 0, 0, 1));
 }
 
-void GripMainWindow::resetCamera()
+void RevizMainWindow::resetCamera()
 {
     viewWidget->setCameraToHomePosition();
 }
 
 
-void GripMainWindow::createTreeView()
+void RevizMainWindow::createTreeView()
 {
     // treeviewer = new TreeView(this, pluginList);
 }
 
-void GripMainWindow::loadPluginDirectory(QDir pluginsDirName)
+void RevizMainWindow::loadPluginDirectory(QDir pluginsDirName)
 {
     std::cerr << "Plugin Path: " << pluginsDirName.absolutePath().toStdString() << std::endl;
 
@@ -541,7 +541,7 @@ void GripMainWindow::loadPluginDirectory(QDir pluginsDirName)
     }
 }
 
-void GripMainWindow::loadPluginFile(QString pluginFileName)
+void RevizMainWindow::loadPluginFile(QString pluginFileName)
 {
     // if (pluginList->size() == 0)
     //     pluginMenu->addSeparator();
@@ -588,23 +588,23 @@ void GripMainWindow::loadPluginFile(QString pluginFileName)
     // }
 }
 
-// void GripMainWindow::setSimulationRelativeTime(double time)
+// void RevizMainWindow::setSimulationRelativeTime(double time)
 // {
     // playbackWidget->slotSetTimeDisplays(world->getTime(), time);
 // }
 
-void GripMainWindow::createTabs()
+void RevizMainWindow::createTabs()
 {
     inspectorTab = new InspectorTab(this);
     visualizationTab = new VisualizationTab(this);
 }
 
-void GripMainWindow::createGround()
+void RevizMainWindow::createGround()
 {
 }
 
 
-void GripMainWindow::createPluginMenu()
+void RevizMainWindow::createPluginMenu()
 {
     pluginMenu = menuBar()->addMenu(tr("&Widgets"));
 
@@ -616,7 +616,7 @@ void GripMainWindow::createPluginMenu()
     }
 }
 
-QDomDocument* GripMainWindow::generateWorkspaceXML()
+QDomDocument* RevizMainWindow::generateWorkspaceXML()
 {
     QDomDocument* config = new QDomDocument();
     QDomProcessingInstruction xmlDeclaration = config->createProcessingInstruction("xml", "version=\"1.0\"");
@@ -695,7 +695,7 @@ QDomDocument* GripMainWindow::generateWorkspaceXML()
     return config;
 }
 
-void GripMainWindow::parseConfig(QDomDocument config)
+void RevizMainWindow::parseConfig(QDomDocument config)
 {
     /// parse and load plugins
     QDomNodeList pluginList = config.elementsByTagName("plugin");
@@ -790,7 +790,7 @@ void GripMainWindow::parseConfig(QDomDocument config)
     /// parse and load lightsources
 }
 
-void GripMainWindow::camera()
+void RevizMainWindow::camera()
 {
     QImage screenshot = viewWidget->takeScreenshot();
 
@@ -817,7 +817,7 @@ void GripMainWindow::camera()
         std::cerr << "No file was selected" << std::endl;
 }
 
-void GripMainWindow::film()
+void RevizMainWindow::film()
 {
     // recordImageList = new QList<QImage>;
 
@@ -848,7 +848,7 @@ void GripMainWindow::film()
     // slotPlaybackTimeStep(true);
 }
 
-void GripMainWindow::saveVideo()
+void RevizMainWindow::saveVideo()
 {
     _recordVideo = false;
 

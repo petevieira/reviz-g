@@ -9,7 +9,7 @@
  */
 
 #include <QtGui/QApplication>
-#include "include/GripMainWindow.h"
+#include "include/RevizMainWindow.h"
 #include <QtGui/QTabWidget>
 #include <X11/Xlib.h>
 
@@ -21,7 +21,7 @@
 void showUsage(std::ostream &ostr)
 {
     ostr <<
-            "Usage: grip <COMMAND> [OPTION]\n"
+            "Usage: reviz <COMMAND> [OPTION]\n"
             "Visualization tool for robotics simulators\n"
             "Commands\n"
             "  -d|--debug                Print debug statements\n"
@@ -30,9 +30,9 @@ void showUsage(std::ostream &ostr)
             "  -h|--help                 Show this help message\n"
             "\n"
             "Examples\n"
-            "  grip -d\n"
-            "  grip -d -f ~/sceneFiles/robot.urdf\n"
-            "  grip --help\n";
+            "  reviz -d\n"
+            "  reviz -d -f ~/sceneFiles/robot.urdf\n"
+            "  reviz --help\n";
 }
 
 /**
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     gui->setDockOptions(QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
     gui->setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
 
-    GripMainWindow *window  = new GripMainWindow(gui, debug, sceneFilePath, configFilePath);
+    RevizMainWindow *window  = new RevizMainWindow(gui, debug, sceneFilePath, configFilePath);
     QMainWindow *launchTab = new QMainWindow();
     QMainWindow *evrTab = new QMainWindow();
 
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 
 #else
     QTabWidget *tab = new QTabWidget();
-    GripMainWindow *window  = new GripMainWindow(tab, debug, sceneFilePath, configFilePath);
+    RevizMainWindow *window  = new RevizMainWindow(tab, debug, sceneFilePath, configFilePath);
     QMainWindow *launchTab = new QMainWindow();
     QMainWindow *evrTab = new QMainWindow();
 

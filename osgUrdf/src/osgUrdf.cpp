@@ -15,18 +15,26 @@
 
 // Standard headers
 #include <string>
+#include <fstream>
 
 // OpenSceneGraph headers
+#include <osgDB/ReadFile>
+#include <osg/CullFace>
 #include <osgDB/ReadFile>
 
 // Local headers
 #include "osgUrdf.h"
-#include <fstream>
+
 
 using namespace osgUrdf;
 
 Robot::Robot()
 {
+}
+
+Robot::Robot(const std::string &urdfFileName, const std::string &urdfFileDirectory)
+{
+  this->parseUrdfRobot(urdfFileName, urdfFileDirectory);
 }
 
 Robot::~Robot()
@@ -46,6 +54,21 @@ void Robot::parseUrdfRobot(const std::string &urdfFileName, const std::string &u
 
   // convert it to openscenegraph
   convertUrdfToOsg(model);
+
+  // osg::CullFace* _cullFace = new osg::CullFace(osg::CullFace::BACK);
+  // // Turn off lighting
+  // _rootTF->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+  // // Set culling mode
+  // _rootTF->getOrCreateStateSet()->setAttributeAndModes(_cullFace, osg::StateAttribute::ON);
+  // // Turn on proper blending of transparent and opaque nodes
+  // _rootTF->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
+
+  // osg::Material* mat = (osg::Material*)_rootTF->
+  //                      getOrCreateStateSet()->getAttribute(osg::StateAttribute::MATERIAL);
+  // this->getOrCreateStateSet()->setAttribute(mat);
+  // this->getOrCreateStateSet()->setAttributeAndModes(new osg::BlendFunc);
+  // this->getOrCreateStateSet()->setMode( GL_RESCALE_NORMAL, osg::StateAttribute::ON );
+
 }
 
 boost::shared_ptr<urdf::ModelInterface> Robot::parseUrdfString(const std::string &urdfFileName, const std::string &urdfFileDirectory)
@@ -209,4 +232,9 @@ osg::Matrix Robot::urdfPoseToOsgMatrix(const urdf::Pose urdfPose)
 
 
   return osgPose;
+}
+
+osg::MatrixTransform* Robot::getRootMatrixTransform()
+{
+  return _rootTF;
 }

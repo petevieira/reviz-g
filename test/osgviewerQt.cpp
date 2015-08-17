@@ -6,95 +6,55 @@
 #include "osgUrdf/osgUrdf.h"
 #include "include/RevizMainWindow.h"
 
-//int callbackTest()
-//{
-//    osg::Group* root = new osg::Group();
+QString loadStyleSheet(QString pathToFile)
+{
+  QFile File(pathToFile);
+  if (!File.open(QFile::ReadOnly)) {
+    std::cerr << "Error opening " << File.fileName().toStdString() << std::endl;
+    exit(-1);
+  }
 
-//    // Create cylinder
-//    osg::Geode* geode = new osg::Geode;
-//    osg::TessellationHints* hints = new osg::TessellationHints;
-//    osg::ShapeDrawable* cylinder = new osg::ShapeDrawable(new osg::Cylinder(osg::Vec3(0.0f, 0.0f, 0), .01, 1), hints);
-//    cylinder->setColor(osg::Vec4(1.0f, 0.0f, 0.0f, 1.0f));
-//    geode->addDrawable(cylinder);
-//    osg::Geode* geode2 = new osg::Geode;
-//    osg::ShapeDrawable* cylinder2 = clone(cylinder);
-//    cylinder2->setColor(osg::Vec4(0.0f, 0.0f, 1.0f, 1.0f));
-//    geode2->addDrawable(cylinder2);
+  QString styleSheet = QLatin1String(File.readAll());
+  if (styleSheet.isEmpty()) {
+    std::cerr << "Failed to read " << File.fileName().toStdString() << std::endl;
+    exit(-1);
+  }
 
-//    // Create dynamics TF
-//    osg::MatrixTransform* rootTF = new osg::MatrixTransform;
-//    osg::MatrixTransform* tf1 = new osg::MatrixTransform;
-//    osg::MatrixTransform* tf2 = new osg::MatrixTransform;
-//    tf1->setDataVariance(osg::Object::DYNAMIC);
-//    tf1->setUpdateCallback(new LineCallback);
-//    tf2->setDataVariance(osg::Object::DYNAMIC);
-////    tf2->setUpdateCallback(new LineCallback);
-//    osg::Matrix m;
-//    m.makeTranslate(0.6, 0, 0);
-//    tf1->setMatrix(m);
-//    tf1->addChild(geode);
-//    tf2->addChild(geode2);
-
-//    // Add TF to root
-//    rootTF->addChild(tf1);
-//    rootTF->addChild(tf2);
-//    root->addChild(rootTF);
-
-//    // switch off lighting as we haven't assigned any normals.
-//    root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-
-//    osgViewer::CompositeViewer* viewer = new osgViewer::CompositeViewer();
-//    osgViewer::View* view = createView(0, 0, 640, 480, root);
-//    view->setUpViewOnSingleScreen(0);
-//    viewer->addView(view);
-
-//    while(!viewer->done()) {
-//        viewer->frame();
-//    }
-
-//    return 0;
-//}
+  return styleSheet;
+}
 
 int main( int argc, char** argv )
 {
-    QApplication app(argc, argv);
+  QApplication app(argc, argv);
 
-#if 1
+  // get urdf path
+  std::string filePath = std::string(argv[0]);
+  std::string curDir = filePath.substr(0, filePath.find_last_of("/"));
+  std::string urdfDir = curDir + "/..";
+  std::string urdfName = "robot.urdf";
 
-    QTabWidget* tab = new QTabWidget();
-    RevizMainWindow* mainWindow = new RevizMainWindow(tab);
-    QMainWindow* launchWindow = new QMainWindow();
-    tab->addTab(mainWindow, QString("ASD"));
-    mainWindow->viewWidget->addNodeToScene(new osgReviz::Sphere(osg::Vec3(0,0,1), 0.5, osg::Vec4(1,0,1,1)));
+  // create gui
+  QTabWidget* tab = new QTabWidget();
+  RevizMainWindow* mainWindow = new RevizMainWindow(tab);
+  QMainWindow* launchWindow = new QMainWindow();
+  QMainWindow* evrs = new QMainWindow();
+  tab->addTab(mainWindow, QString("Reviz"));
+  tab->addTab(launchWindow, QString("Launch"));
+  tab->addTab(evrs, QString("EVRs"));
 
+  // add robot.urdf to visualizer
+  osgUrdf::Robot* robot = new osgUrdf::Robot(urdfName, urdfDir);
+  osg::MatrixTransform* tf = robot->getRootMatrixTransform();
+  osg::Matrix osgPose;
+  osgPose.preMultRotate(osg::Quat(M_PI, osg::Vec3(0,1,0)));
+  tf->setMatrix(osgPose);
+  mainWindow->viewWidget->addNodeToScene(robot);
 
-    mainWindow->setMinimumSize(tab->width(), tab->height());
+  mainWindow->setMinimumSize(tab->width(), tab->height());
 
-    tab->addTab(launchWindow, QString("launch"));
-    tab->showMaximized();
+  tab->showMaximized();
 
-#else
-    QWidget* window = new QWidget();
+  // app.setStyleSheet(loadStyleSheet("resources/dark-orange.qss"));
 
-    QHBoxLayout* layout = new QHBoxLayout;
-    QMainWindow* mainWindow = new QMainWindow();
-    ViewerWidget* viewWidget = new ViewerWidget();
-
-    layout->addWidget(mainWindow);
-
-    mainWindow->setCentralWidget(viewWidget);
-
-    osgUrdf::Robot* robot = new osgUrdf::Robot();
-    // robot->parseUrdfRobot("drchubo_v2.urdf", "/home/pevieira/otherRepos/grip2/models/drchubo_v2/robots");
-    robot->parseUrdfRobot("powercube-arm.urdf", "/home/pevieira/Powercube-Arm-Urdf/robots");
-    // robot->parseUrdfRobot("robot.urdf", "./test");
-    viewWidget->addNodeToScene(robot);
-    viewWidget->addGrid(20, 20, 1);
-
-    window->setLayout(layout);
-    window->setGeometry(100, 100, 800, 600);
-    window->show();
-#endif
-
-    return app.exec();
+  return app.exec();
 }

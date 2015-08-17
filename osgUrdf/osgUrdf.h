@@ -25,8 +25,6 @@
 #include <osg/Geode>
 #include <osg/Matrix>
 #include <osg/MatrixTransform>
-#include <osg/CullFace>
-#include <osgDB/ReadFile>
 
 // urdfdom headers
 #include <urdf_parser/urdf_parser.h>
@@ -36,13 +34,13 @@
 
 namespace osgUrdf {
 
-/// Array of osg::Group pointers for the dart::dynamics::BodyNode visualization objects
-
 
 class Robot : public osg::Group
 {
 public:
   Robot();
+
+  Robot(const std::string &urdfFileName, const std::string &urdfFileDirectory);
 
   ~Robot();
 
@@ -61,6 +59,8 @@ public:
   std::string getUrdfMeshFilePath(boost::shared_ptr<const urdf::Link> urdfLink);
 
   osg::Matrix urdfPoseToOsgMatrix(const urdf::Pose urdfPose);
+
+  osg::MatrixTransform* getRootMatrixTransform();
 
 private:
 

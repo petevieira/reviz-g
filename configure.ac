@@ -24,7 +24,7 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 AC_PROG_CXX
 AC_PROG_CPP
-AC_PROG_LIBTOOL
+AC_PROG_RANLIB
 AC_PROG_INSTALL  
 
 dnl check sizeof long for 64 vs 32 bit machines

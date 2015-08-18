@@ -30,7 +30,7 @@ int main( int argc, char** argv )
   // get urdf path
   std::string filePath = std::string(argv[0]);
   std::string curDir = filePath.substr(0, filePath.find_last_of("/"));
-  std::string urdfDir = curDir + "/..";
+  std::string urdfDir = curDir;
   std::string urdfName = "robot.urdf";
 
   // create gui

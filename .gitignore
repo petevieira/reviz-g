@@ -22,6 +22,7 @@ missing
 .libs
 *.deps
 *.la
+*.a
 *.lo
 *.o
 *.*~

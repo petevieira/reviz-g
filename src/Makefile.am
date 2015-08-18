@@ -1,9 +1,9 @@
 
 bin_PROGRAMS =	reviz
 
-lib_LTLIBRARIES = libmainwindow.la
+lib_LIBRARIES = libmainwindow.a
 
-AUTOMAKE_OPTIONS = subdir-objects
+
 
 AM_CFLAGS   = 		-Werror \
 									-D_GNU_SOURCE
@@ -29,10 +29,10 @@ AM_CXXFLAGS = 		-Werror \
 									-I/usr/include/osgQt
 
 reviz_LDADD = \
-							libmainwindow.la \
-							../qtWidgets/libqtWidgets.la \
-							../osgReviz/libosgReviz.la \
-							../osgUrdf/libosgUrdf.la \
+							libmainwindow.a \
+							../qtWidgets/libqtWidgets.a \
+							../osgReviz/libosgReviz.a \
+							../osgUrdf/libosgUrdf.a \
 							$(GUI_LIBS) \
 							$(OSG_LIBS) \
 							$(URDFDOM_LIBS)
@@ -40,17 +40,14 @@ reviz_LDADD = \
 reviz_SOURCES = \
 								reviz.cpp
 
-libmainwindow_la_LIBADD = \
-													../qtWidgets/libqtWidgets.la \
-													../osgReviz/libosgReviz.la \
-													../osgUrdf/libosgUrdf.la \
-													$(GUI_LIBS) \
-													$(OSG_LIBS) \
-													$(URDFDOM_LIBS)
+libmainwindow_a_DEPENDENCIES = \
+													../qtWidgets/libqtWidgets.a \
+													../osgReviz/libosgReviz.a \
+													../osgUrdf/libosgUrdf.a
 
-libmainwindow_la_LIBFLAGS = -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x
+libmainwindow_a_LIBFLAGS = -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x
 
-libmainwindow_la_SOURCES =	\
+libmainwindow_a_SOURCES =	\
 														ViewerWidget.cpp \
 														RevizMainWindow.cpp \
 														moc_MainWindow.cc MainWindow.cpp \

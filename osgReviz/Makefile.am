@@ -1,7 +1,7 @@
 
-lib_LTLIBRARIES =		libosgReviz.la
+lib_LIBRARIES =		libosgReviz.a
 
-AUTOMAKE_OPTIONS = subdir-objects
+
 
 AM_CFLAGS   = 		-Werror \
 									-D_GNU_SOURCE \
@@ -18,9 +18,12 @@ AM_CPPFLAGS = 		-Werror \
 									-I/usr/include/qt4/QtOpenGL \
 									-I/usr/include/qt4/QtCore
 
-libosgReviz_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -export-dynamic -soname
+libosgReviz_a_LIBFLAGS = \
+												-L/usr/lib/x86_64-linux-gnu/ \
+												-fPIC \
+												-std=c++0x
 
-libosgReviz_la_SOURCES = \
+libosgReviz_a_SOURCES = \
 													src/Grid.cpp \
 													src/osgUtils.cpp \
 													src/GripCameraManipulator.cpp \

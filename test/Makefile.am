@@ -1,8 +1,6 @@
 
 bin_PROGRAMS =	osgviewerQt
 
-AUTOMAKE_OPTIONS = subdir-objects
-
 AM_CFLAGS   = 		-Werror \
 									-D_GNU_SOURCE
 
@@ -27,14 +25,23 @@ AM_CXXFLAGS = 		-Werror \
 									-I/usr/include/osgGA \
 									-I/usr/include/osgQt
 
+
+
 osgviewerQt_LDADD = \
-							../qtWidgets/libqtWidgets.la \
-							../osgReviz/libosgReviz.la \
-							../osgUrdf/libosgUrdf.la \
-							../src/libmainwindow.la \
+							../src/libmainwindow.a \
+							../qtWidgets/libqtWidgets.a \
+							../osgReviz/libosgReviz.a \
+							../osgUrdf/libosgUrdf.a \
 							$(GUI_LIBS) \
 							$(OSG_LIBS) \
 							$(URDFDOM_LIBS)
 
 osgviewerQt_SOURCES = \
 								osgviewerQt.cpp
+
+osgviewerQt_DEPENDENCIES = \
+							../qtWidgets/libqtWidgets.a \
+							../osgReviz/libosgReviz.a \
+							../osgUrdf/libosgUrdf.a \
+							../src/libmainwindow.a
+

@@ -8,7 +8,8 @@ AM_CFLAGS   = 		-Werror \
 									-DQT_SHARED
 
 AM_CPPFLAGS = 		-Werror \
-									-I$(top_srcdir)/osgReviz \
+									-I../
+									-I../osgReviz \
 									-I/usr/include/osg \
 									-I/usr/include/osgViewer \
 									-I/usr/include/osgManipulator \
@@ -17,7 +18,7 @@ AM_CPPFLAGS = 		-Werror \
 libosgUrdf_la_LIBFLAGS = -shared -L/usr/lib/x86_64-linux-gnu/ -fPIC -std=c++0x -export-dynamic -soname
 
 libosgUrdf_la_LIBADD = \
-							$(top_srcdir)/osgReviz/libosgReviz.la \
+							../osgReviz/libosgReviz.la \
 							$(OSG_LIBS) \
 							$(URDFDOM_LIBS)
 

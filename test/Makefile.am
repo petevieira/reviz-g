@@ -9,12 +9,13 @@ AM_CFLAGS   = 		-Werror \
 AM_CXXFLAGS = 		-Werror \
 									-D_GNU_SOURCE \
 									-DQT_SHARED \
-									-I$(top_srcdir)/osgReviz \
-									-I$(top_srcdir)/qtWidgets/ui \
-									-I$(top_srcdir)/qtWidgets \
-									-I$(top_srcdir)/osgUrdf \
-									-I$(top_srcdir)/include \
-									-I$(top_srcdir)/src \
+									-I../ \
+									-I../osgReviz \
+									-I../qtWidgets/ui \
+									-I../qtWidgets \
+									-I../osgUrdf \
+									-I../include \
+									-I../src \
 									-I/usr/include/qt4 \
 									-I/usr/include/qt4/QtXml \
 									-I/usr/include/qt4/QtOpenGL \
@@ -27,10 +28,10 @@ AM_CXXFLAGS = 		-Werror \
 									-I/usr/include/osgQt
 
 osgviewerQt_LDADD = \
-							$(top_srcdir)/qtWidgets/libqtWidgets.la \
-							$(top_srcdir)/osgReviz/libosgReviz.la \
-							$(top_srcdir)/osgUrdf/libosgUrdf.la \
-							$(top_srcdir)/src/libmainwindow.la \
+							../qtWidgets/libqtWidgets.la \
+							../osgReviz/libosgReviz.la \
+							../osgUrdf/libosgUrdf.la \
+							../src/libmainwindow.la \
 							$(GUI_LIBS) \
 							$(OSG_LIBS) \
 							$(URDFDOM_LIBS)

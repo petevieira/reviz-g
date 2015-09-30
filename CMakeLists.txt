@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(grip2)
+project(reviz)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
 
@@ -91,6 +91,15 @@ endif()
 
 message(STATUS "\nIncludes: ${OpenSceneGraph_INCLUDE_DIRS}")
 
+# Find urdfdom
+find_package(urdfdom QUIET)
+if(urdfdom_FOUND)
+    message(STATUS "Looking for urdfdom - Found")
+    set(URDFDOM_LIBRARIES urdfdom_model urdfdom_model_state urdfdom_world)
+else()
+    message(SEND_ERROR "Looking for urdfdom - NOT Found, please install liburdfdom-dev")
+endif()
+
 # Find Eigen3
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(Eigen REQUIRED)
@@ -111,12 +120,12 @@ add_subdirectory(osgReviz)
 include_directories(osgReviz)
 include_directories(./)
 
-# Add DART OSG library
-# add_subdirectory(osgDart)
-# include_directories(osgDart)
+# Add OpenSceneGraph Urdf library
+add_subdirectory(osgUrdf)
+include_directories(osgUrdf)
 
 # Set project libraries variable
-set(project_libs qtWidgets osgReviz)
+set(project_libs qtWidgets osgReviz osgUrdf)
 
 # Add Main Window library
 QT4_WRAP_CPP(GUI_MOC_HEADERS ${PROJECT_SOURCE_DIR}/include/MainWindow.h)
@@ -128,18 +137,18 @@ target_link_libraries(mainWindow ${project_libs} ${X11_THREADS_LIB})
 set(project_libs ${project_libs} mainWindow)
 
 #-----------------------------------------------
-#                BUILD GRIP
+#                BUILD REVIZ
 #-----------------------------------------------
-add_executable(grip ${PROJECT_SOURCE_DIR}/src/grip.cpp)
-target_link_libraries(grip ${project_libs} ${QT_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES})
+add_executable(reviz ${PROJECT_SOURCE_DIR}/src/reviz.cpp)
+target_link_libraries(reviz ${project_libs} ${URDFDOM_LIBRARIES} ${QT_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES})
 
-FILE(GLOB grip-srcs osgReviz/*.h osgReviz/src/*.cpp qtWidgets/*.h qtWidgets/src/*.cpp)
-add_library(grip-core SHARED ${grip-srcs})
-target_link_libraries(grip-core ${project_libs} ${QT_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES})
+FILE(GLOB reviz-srcs osgReviz/*.h osgReviz/src/*.cpp qtWidgets/*.h qtWidgets/src/*.cpp osgUrdf/*.h osgUrdf/src*.cpp)
+add_library(reviz-core SHARED ${reviz-srcs})
+target_link_libraries(reviz-core ${project_libs} ${QT_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES} ${URDFDOM_LIBRARIES})
 
-# add_library(grip_wrap_test STATIC ${PROJECT_SOURCE_DIR}/src/grip_wrap_test.cpp)
-# target_link_libraries(grip_wrap_test ${project_libs} ${QT_LIBRARIES} ${DART_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES})
-# MESSAGE("----------> ALL LIBRARIES: grip_wrap_test ${project_libs} ${QT_LIBRARIES} ${DART_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES}")
+# add_library(reviz_wrap_test STATIC ${PROJECT_SOURCE_DIR}/src/reviz_wrap_test.cpp)
+# target_link_libraries(reviz_wrap_test ${project_libs} ${QT_LIBRARIES} ${DART_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES})
+# MESSAGE("----------> ALL LIBRARIES: reviz_wrap_test ${project_libs} ${QT_LIBRARIES} ${DART_LIBRARIES} ${OPENSCENEGRAPH_LIBRARIES}")
 #-----------------------------------------------
 #                BUILD TESTS
 #-----------------------------------------------
@@ -154,7 +163,7 @@ foreach(utest_src_file ${unit_tests_source})
     get_filename_component(test_base ${utest_src_file} NAME_WE)
     message(STATUS "Adding test ${test_base}")
     add_executable(${test_base} ${utest_src_file})
-    target_link_libraries(${test_base} ${project_libs} ${OPENSCENEGRAPH_LIBRARIES} ${QT_LIBRARIES})
+    target_link_libraries(${test_base} ${project_libs} ${OPENSCENEGRAPH_LIBRARIES} ${QT_LIBRARIES} ${URDFDOM_LIBRARIES})
     add_test(${test_base} ${EXECUTABLE_OUTPUT_PATH}/${test_base})
     add_custom_target(${test_base}.run ${test_base} ${ARGN})
     add_dependencies(check ${test_base})
@@ -163,38 +172,38 @@ endforeach(utest_src_file)
 #-----------------------------------------------
 #                 INSTALLATION
 #-----------------------------------------------
-# Install grip
-# INSTALL(PROGRAMS build/grip
+# Install reviz
+# INSTALL(PROGRAMS build/reviz
 #         DESTINATION /usr/local/bin/)
 
-# # Install library of grips libraries
-# INSTALL(TARGETS grip-core
+# # Install library of reviz's libraries
+# INSTALL(TARGETS reviz-core
 #         DESTINATION /usr/local/lib/)
 
 # # Install header files by namespace and directory
 # FILE(GLOB osgDartHeaders "osgDart/*.h")
 # INSTALL(FILES ${osgDartHeaders}
-#         DESTINATION /usr/local/include/grip/osgDart)
+#         DESTINATION /usr/local/include/reviz/osgDart)
 
 # FILE(GLOB osgRevizHeaders "osgReviz/*.h")
 # INSTALL(FILES ${osgRevizHeaders}
-#         DESTINATION /usr/local/include/grip/osgReviz)
+#         DESTINATION /usr/local/include/reviz/osgReviz)
 
 # FILE(GLOB qtWidgetsHeaders "qtWidgets/*.h")
 # INSTALL(FILES ${qtWidgetsHeaders}
-#         DESTINATION /usr/local/include/grip/qtWidgets)
+#         DESTINATION /usr/local/include/reviz/qtWidgets)
 
 # FILE(GLOB mainHeaders "include/*.h")
 # INSTALL(FILES ${mainHeaders}
-#         DESTINATION /usr/local/include/grip/include)
+#         DESTINATION /usr/local/include/reviz/include)
 
-# # Install cmake find file for grip
-# INSTALL(FILES cmake/FindGRIP.cmake
+# # Install cmake find file for reviz
+# INSTALL(FILES cmake/FindREVIZ.cmake
 #         DESTINATION ${CMAKE_ROOT}/Modules)
 
-# # Install desktop file to call grip from desktop
-# INSTALL(FILES "doc/grip.desktop"
+# # Install desktop file to call reviz from desktop
+# INSTALL(FILES "doc/reviz.desktop"
 #         DESTINATION /usr/share/applications)
 
-# INSTALL(FILES "src/icons/grip-icon.png"
+# INSTALL(FILES "src/icons/reviz-icon.png"
 #         DESTINATION /usr/share/icons/)

@@ -17,7 +17,7 @@ AM_CPPFLAGS = 		-Werror \
 									-I/usr/include/osgManipulator \
 									-I/usr/include/osgGA
 
-reviz_LDADD = \
+libosgUrdf_a_LDADD = \
 							libmainwindow.a \
 							../qtWidgets/libqtWidgets.a \
 							../osgReviz/libosgReviz.a \

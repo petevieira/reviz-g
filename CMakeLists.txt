@@ -62,28 +62,29 @@ if(${OSG_LIBRARY_INSTALL})
     #       * to get OSG 3.0.1 to build you may need to disable ffmpeg:
     #       * run "ccmake ..", and delete entry "FFMPEG_LIBAVUTIL_INCLUDE_DIRS" 
     find_library(OpenSceneGraph REQUIRED
-        COMPONENTS osg osgViewer osgManipulator osgGA osgDB osgQt)
-    set(OSG_LIBRARY_PATH "/usr/local/lib") # may have to be customized
+        COMPONENTS osg osgViewer osgManipulator osgGA osgDB osgQt osgUtil)
+    set(OSG_LIBRARY_PATH "/usr/local/lib64") # may have to be customized
     if(APPLE)
         set(LIB_SUFFIX "dylib")
     else(APPLE)
         set(LIB_SUFFIX "so")
     endif()
     set(OPENSCENEGRAPH_LIBRARIES ${OSG_LIBRARY_PATH}/libosg.${LIB_SUFFIX}
-        ${OSG_LIBRARY_PATH}/libosgViewer.${LIB_SUFFIX}
-        ${OSG_LIBRARY_PATH}/libosgManipulator.${LIB_SUFFIX}
-        ${OSG_LIBRARY_PATH}/libosgGA.${LIB_SUFFIX}
-        ${OSG_LIBRARY_PATH}/libosgDB.${LIB_SUFFIX}
-        ${OSG_LIBRARY_PATH}/libOpenThreads.${LIB_SUFFIX}
-        ${OSG_LIBRARY_PATH}/libosgQt.${LIB_SUFFIX}
-        ${OSG_LIBRARY_PATH}/libosg.${LIB_SUFFIX}
-        ${OSG_LIBRARY_PATH}/libosg.${LIB_SUFFIX}
-        ${OSG_LIBRARY_PATH}/libOpenThreads.${LIB_SUFFIX}) 
+                                 ${OSG_LIBRARY_PATH}/libosgViewer.${LIB_SUFFIX}
+                                 ${OSG_LIBRARY_PATH}/libosgManipulator.${LIB_SUFFIX}
+                                 ${OSG_LIBRARY_PATH}/libosgGA.${LIB_SUFFIX}
+                                 ${OSG_LIBRARY_PATH}/libosgDB.${LIB_SUFFIX}
+                                 ${OSG_LIBRARY_PATH}/libOpenThreads.${LIB_SUFFIX}
+                                 ${OSG_LIBRARY_PATH}/libosgQt.${LIB_SUFFIX}
+                                 ${OSG_LIBRARY_PATH}/libosg.${LIB_SUFFIX}
+                                 ${OSG_LIBRARY_PATH}/libosg.${LIB_SUFFIX}
+                                 ${OSG_LIBRARY_PATH}/libOpenThreads.${LIB_SUFFIX})
 else(${OSG_LIBRARY_INSTALL})
     # Find OpenSceneGraph (cmake package)
+    set(OSG_LIBRARY_PATH "/usr/local/lib64") # may have to be customized
     find_package(OpenSceneGraph 3.0 REQUIRED
         COMPONENTS osg osgViewer osgManipulator osgGA osgDB)
-    find_package(OpenSceneGraph 3.0 QUIET COMPONENTS osgQt)
+    find_package(OpenSceneGraph 3.0 REQUIRED COMPONENTS osgQt)
     include_directories(${OpenSceneGraph_INCLUDE_DIRS})
     add_definitions(${OpenSourceGraph_DEFINITIONS})
     set(OPENSCENEGRAPH_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES} osgQt)
@@ -95,7 +96,9 @@ message(STATUS "\nIncludes: ${OpenSceneGraph_INCLUDE_DIRS}")
 find_package(urdfdom QUIET)
 if(urdfdom_FOUND)
     message(STATUS "Looking for urdfdom - Found")
-    set(URDFDOM_LIBRARIES urdfdom_model urdfdom_model_state urdfdom_world)
+    set(URDFDOM_LIBRARIES urdfdom_model
+                          urdfdom_model_state
+                          urdfdom_world)
 else()
     message(SEND_ERROR "Looking for urdfdom - NOT Found, please install liburdfdom-dev")
 endif()
@@ -125,7 +128,9 @@ add_subdirectory(osgUrdf)
 include_directories(osgUrdf)
 
 # Set project libraries variable
-set(project_libs qtWidgets osgReviz osgUrdf)
+set(project_libs qtWidgets
+                 osgReviz
+                 osgUrdf)
 
 # Add Main Window library
 QT4_WRAP_CPP(GUI_MOC_HEADERS ${PROJECT_SOURCE_DIR}/include/MainWindow.h)

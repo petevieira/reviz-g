@@ -26,8 +26,9 @@ endif()
 #-----------------------------------------------
 set(CMAKE_BUILD_TYPE "Release")
 list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall")
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} /usr/local/lib64)
 
 # Define preprocessor macro for Debug printing in Debug mode
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -81,10 +82,16 @@ if(${OSG_LIBRARY_INSTALL})
                                  ${OSG_LIBRARY_PATH}/libOpenThreads.${LIB_SUFFIX})
 else(${OSG_LIBRARY_INSTALL})
     # Find OpenSceneGraph (cmake package)
+    message(STATUS "Searching for OpenSceneGraph")
     set(OSG_LIBRARY_PATH "/usr/local/lib64") # may have to be customized
     find_package(OpenSceneGraph 3.0 REQUIRED
         COMPONENTS osg osgViewer osgManipulator osgGA osgDB)
     find_package(OpenSceneGraph 3.0 REQUIRED COMPONENTS osgQt)
+    if(${OSG_FOUND})
+        message(STATUS "Looking for OpenSceneGraph - Found")
+    else()
+        message(SEND_ERROR "Looking for OpenSceneGraph - NOT Found. Please install libopenscenegraph-dev")
+    endif()
     include_directories(${OpenSceneGraph_INCLUDE_DIRS})
     add_definitions(${OpenSourceGraph_DEFINITIONS})
     set(OPENSCENEGRAPH_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES} osgQt)
@@ -112,7 +119,6 @@ include_directories(${Eigen_INCLUDE_DIR})
 #      INCLUDES & SUBDIRECTORY LIBRARIRES
 #-----------------------------------------------
 include_directories(include)
-include_directories(${CMAKE_BINARY_DIR}/qtWidgets)
 
 # Add QT Widgets library
 add_subdirectory(qtWidgets)

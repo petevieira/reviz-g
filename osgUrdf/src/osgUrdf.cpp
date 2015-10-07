@@ -187,6 +187,9 @@ osg::Node* Robot::createOsgLink(boost::shared_ptr<const urdf::Link> urdfLink)
   osgLink->setName(urdfLink->name);
   std::cerr << "Using name: " << urdfLink->name << std::endl;
 
+  osgLink->getOrCreateStateSet()->setAttribute(new osg::BlendFunc);
+
+
   return osgLink;
 }
 

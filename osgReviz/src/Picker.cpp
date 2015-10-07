@@ -21,6 +21,7 @@
 
 // Local headers
 #include "../Picker.h"
+#include <osg/ObserverNodePath>
 
 using namespace osgReviz;
 
@@ -51,11 +52,16 @@ bool Picker::handle(const osgGA::GUIEventAdapter& eventAdapter, osgGA::GUIAction
 void Picker::pick(const osgGA::GUIEventAdapter& eventAdapter)
 {
   osgUtil::LineSegmentIntersector::Intersections intersections;
+  std::string prevNodeName = "";
 
   if (_view->computeIntersections(eventAdapter, intersections)) {
+    std::cout << "Found " << intersections.size() << " intersections" << std::endl;
     for (osgUtil::LineSegmentIntersector::Intersections::iterator intersection = intersections.begin(); intersection != intersections.end(); ++intersection) {
-      osg::ref_ptr<osg::Drawable> drawable = intersection->drawable;
-      if (drawable.valid()) {
+      for (osg::NodePath::const_iterator nodeIter = intersection->nodePath.begin(); nodeIter != intersection->nodePath.end(); ++nodeIter) {
+        if ((*nodeIter)->getName() != "" && (*nodeIter)->getName() != prevNodeName) {
+          prevNodeName = (*nodeIter)->getName();
+          std::cout << "  \"" << (*nodeIter)->getName() << "\"" << std::endl;
+        }
       }
     }
   }

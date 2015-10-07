@@ -50,6 +50,7 @@ osgReviz/cmake_install.cmake
 osgUrdf/CMakeFiles/
 osgUrdf/cmake_install.cmake
 osgviewerQt
+osgviewer
 qtWidgets/CMakeFiles/
 qtWidgets/cmake_install.cmake
 qtWidgets/qrc_qtWidgets.cxx

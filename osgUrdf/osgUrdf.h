@@ -25,12 +25,11 @@
 #include <osg/Geode>
 #include <osg/Matrix>
 #include <osg/MatrixTransform>
+#include <osg/BlendFunc>
 
 // urdfdom headers
 #include <urdf_parser/urdf_parser.h>
 #include <urdf_world/world.h>
-
-#include "osgReviz/osgUtils.h"
 
 namespace osgUrdf {
 

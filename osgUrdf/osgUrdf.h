@@ -61,11 +61,26 @@ public:
 
   osg::MatrixTransform* getRootMatrixTransform();
 
+  osg::MatrixTransform* getJoint(int i);
+
+  osg::Node* getLink(int i);
+
+  osg::Vec3 getJointAxis(int i);
+
+  size_t getNumJoints();
+
+  size_t getNumLinks();
+
+  void printChildren();
+
 private:
 
   std::string _robotPackageDirectory;
   std::string _pathToRobot;
   osg::MatrixTransform* _rootTF;
+  std::vector<osg::MatrixTransform*> _joints;
+  std::vector<osg::Vec3> _jointAxes;
+  std::vector<osg::Node*> _links;
 
 };
 

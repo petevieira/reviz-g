@@ -144,9 +144,11 @@ void Robot::createRobotRecursively(boost::shared_ptr<const urdf::ModelInterface>
     osgChildJoint = createOsgJoint(urdfJoint);
     osgJoint->addChild(osgChildJoint);
 
+
     // create osg child link
     osgChildLink = createOsgLink(urdfChildLink);
     osgChildJoint->addChild(osgChildLink);
+    _links.push_back(osgChildLink);
 
     createRobotRecursively(urdfModel, urdfChildLink, osgChildJoint);
   }
@@ -158,6 +160,12 @@ osg::MatrixTransform* Robot::createOsgJoint(boost::shared_ptr<const urdf::Joint>
   osg::MatrixTransform *osgJoint = new osg::MatrixTransform;
 
   osgJoint->setMatrix(urdfPoseToOsgMatrix(urdfJoint->parent_to_joint_origin_transform));
+  osgJoint->setName(urdfJoint->name);
+  _joints.push_back(osgJoint);
+
+  urdf::Vector3 urdfJointAxis = urdfJoint->axis;
+  osg::Vec3 axis(urdfJointAxis.x, urdfJointAxis.y, urdfJointAxis.z);
+  _jointAxes.push_back(axis);
 
   return osgJoint;
 }
@@ -229,9 +237,10 @@ osg::Matrix Robot::urdfPoseToOsgMatrix(const urdf::Pose urdfPose)
                         urdfPose.position.y,
                         urdfPose.position.z);
   osgPose.preMultRotate(osg::Quat(
-                     urdfPose.rotation.x,
-                     urdfPose.rotation.y,
-                     urdfPose.rotation.z,urdfPose.rotation.w));
+                        urdfPose.rotation.x,
+                        urdfPose.rotation.y,
+                        urdfPose.rotation.z,
+                        urdfPose.rotation.w));
 
 
   return osgPose;
@@ -240,4 +249,44 @@ osg::Matrix Robot::urdfPoseToOsgMatrix(const urdf::Pose urdfPose)
 osg::MatrixTransform* Robot::getRootMatrixTransform()
 {
   return _rootTF;
+}
+
+osg::MatrixTransform* Robot::getJoint(int i)
+{
+  return _joints.at(i);
+}
+
+osg::Node* Robot::getLink(int i)
+{
+  return _links.at(i);
+}
+
+osg::Vec3 Robot::getJointAxis(int i)
+{
+  return _jointAxes.at(i);
+}
+
+size_t Robot::getNumJoints()
+{
+  return _links.size();
+}
+
+size_t Robot::getNumLinks()
+{
+  return _joints.size();
+}
+
+void Robot::printChildren()
+{
+  for(size_t i = 0; i < getNumLinks(); ++i) {
+    std::cout << "Link  " << i << ": " << getLink(i)->getName() << std::endl;
+  }
+
+  for(size_t i = 0; i < getNumJoints(); ++i) {
+    std::cout << "Joint " << i << ": " << getJoint(i)->getName() 
+              << ", Axis: " << getJointAxis(i).x()
+              << " "        << getJointAxis(i).y()
+              << " "        << getJointAxis(i).z()
+              << std::endl;
+  }
 }

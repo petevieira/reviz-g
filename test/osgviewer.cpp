@@ -43,14 +43,24 @@ int main( int argc, char** argv )
 }
 
 #else
+
+void moveJoint(osgUrdf::Robot* robot, int i)
+{
+  double angle = .005;
+  osg::Matrix m;
+  m = robot->getJoint(i)->getMatrix();
+  m.postMultRotate(osg::Quat(angle, robot->getJointAxis(i)));
+  robot->getJoint(i)->setMatrix(m);
+}
+
 int main( int argc, char** argv )
 {
   // get urdf path
   std::string filePath = std::string(argv[0]);
   // std::string curDir = filePath.substr(0, filePath.find_last_of("/"));
-  std::string curDir = "/home/pevieira/Downloads/ARMURDF/robots/";
+  std::string curDir = "/home/pevieira/Downloads/ARMURDF_v2/robots/";
   std::string urdfDir = curDir;
-  std::string urdfName = "ARMURDF.URDF";
+  std::string urdfName = "ARMURDF.urdf";
 
   // create gui
   osg::Group* root = new osg::Group();
@@ -68,17 +78,35 @@ int main( int argc, char** argv )
   root->addChild(robot);
 
   // add box to visualizer
-  osg::MatrixTransform* boxTf = new osg::MatrixTransform();
-  osg::Matrix boxPose;
-  boxPose.makeTranslate(0, 0, 3);
-  boxTf->setMatrix(boxPose);
-  osgReviz::Sphere* sphere = new osgReviz::Sphere(osg::Vec3(0, 0, 0), .1, osg::Vec4(1,0,0,1));
-  tf->addChild(sphere);
+  // osg::MatrixTransform* boxTf = new osg::MatrixTransform();
+  // osg::Matrix boxPose;
+  // boxPose.makeTranslate(0, 0, 3);
+  // boxTf->setMatrix(boxPose);
+  // osgReviz::Sphere* sphere = new osgReviz::Sphere(osg::Vec3(0, 0, 0), .1, osg::Vec4(1,0,0,1));
+  // tf->addChild(sphere);
 
-  root->addChild(boxTf);
+  // root->addChild(boxTf);
+
+  robot->printChildren();
+
+  int cnt = 0;
+  int joint = 0;
 
   while(!viewer->done()) {
     viewer->frame();
+
+    if(joint < (int)robot->getNumJoints()) {
+      if(cnt < 500) {
+        moveJoint(robot, joint);
+        ++cnt;
+      } else {
+        ++joint;
+        cnt = 0;
+        std::cout << "moving joint " << joint << " now " << std::endl;
+      }
+    }
+
+
   }
 }
 #endif

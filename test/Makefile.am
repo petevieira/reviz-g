@@ -1,5 +1,5 @@
 
-bin_PROGRAMS =	osgviewerQt
+bin_PROGRAMS =	osgviewerQt osgviewer
 
 AM_CFLAGS   = 		-Werror \
 									-D_GNU_SOURCE
@@ -40,6 +40,25 @@ osgviewerQt_SOURCES = \
 								osgviewerQt.cpp
 
 osgviewerQt_DEPENDENCIES = \
+							../qtWidgets/libqtWidgets.a \
+							../osgReviz/libosgReviz.a \
+							../osgUrdf/libosgUrdf.a \
+							../src/libmainwindow.a
+
+
+osgviewer_LDADD = \
+							../src/libmainwindow.a \
+							../qtWidgets/libqtWidgets.a \
+							../osgReviz/libosgReviz.a \
+							../osgUrdf/libosgUrdf.a \
+							$(GUI_LIBS) \
+							$(OSG_LIBS) \
+							$(URDFDOM_LIBS)
+
+osgviewer_SOURCES = \
+								osgviewer.cpp
+
+osgviewer_DEPENDENCIES = \
 							../qtWidgets/libqtWidgets.a \
 							../osgReviz/libosgReviz.a \
 							../osgUrdf/libosgUrdf.a \

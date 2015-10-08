@@ -59,6 +59,18 @@ inline osg::ref_ptr<osg::Node> convertStlToOsgNode(std::string stlFile)
   return node;
 }
 
+inline osg::Matrix transpose(const osg::Matrix& tf)
+{
+  osg::Matrix output;
+  for (ushort i=0; i<4; ++i) {
+    for (ushort j=0; j<4; ++j) {
+      output(i,j) = tf(j,i);
+    }
+  }
+  return output;
+}
+
+
 #if HAVE_EIGEN
 /**
  * \brief Convert Eigen::Isometry3d matrix to an osg::Matrix.

@@ -117,8 +117,10 @@ void Robot::convertUrdfToOsg(boost::shared_ptr<const urdf::ModelInterface> urdfM
   boost::shared_ptr<const urdf::Link> urdfRootLink = urdfModel->getRoot();
 
   _rootTF = new osg::MatrixTransform();
+  _rootTF->setName("rootTF");
   this->addChild(_rootTF);
   _rootTF->addChild(createOsgLink(urdfRootLink));
+  std::cout << "Added " << _rootTF->getChild(0)->getName() << " to " << _rootTF->getName() << std::endl;
 
   createRobotRecursively(urdfModel, urdfRootLink, _rootTF);
 
@@ -143,12 +145,14 @@ void Robot::createRobotRecursively(boost::shared_ptr<const urdf::ModelInterface>
     // create osg child joint
     osgChildJoint = createOsgJoint(urdfJoint);
     osgJoint->addChild(osgChildJoint);
-
+    _joints.push_back(osgChildJoint);
+    std::cout << "Added " << osgChildJoint->getName() << " to " << osgJoint->getName() << std::endl;
 
     // create osg child link
     osgChildLink = createOsgLink(urdfChildLink);
     osgChildJoint->addChild(osgChildLink);
     _links.push_back(osgChildLink);
+    std::cout << "Added " << osgChildLink->getName() << " to " << osgChildJoint->getName() << std::endl;
 
     createRobotRecursively(urdfModel, urdfChildLink, osgChildJoint);
   }
@@ -161,7 +165,6 @@ osg::MatrixTransform* Robot::createOsgJoint(boost::shared_ptr<const urdf::Joint>
 
   osgJoint->setMatrix(urdfPoseToOsgMatrix(urdfJoint->parent_to_joint_origin_transform));
   osgJoint->setName(urdfJoint->name);
-  _joints.push_back(osgJoint);
 
   urdf::Vector3 urdfJointAxis = urdfJoint->axis;
   osg::Vec3 axis(urdfJointAxis.x, urdfJointAxis.y, urdfJointAxis.z);
@@ -193,7 +196,6 @@ osg::Node* Robot::createOsgLink(boost::shared_ptr<const urdf::Link> urdfLink)
   }
 
   osgLink->setName(urdfLink->name);
-  std::cerr << "Using name: " << urdfLink->name << std::endl;
 
   osgLink->getOrCreateStateSet()->setAttribute(new osg::BlendFunc);
 

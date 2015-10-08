@@ -1,8 +1,14 @@
+
+// OpenSceneGraph headers
+#include <osg/io_utils>
+#include <osgViewer/CompositeViewer>
+
+// osgReviz headers
 #include "osgReviz/osgUtils.h"
 #include "osgReviz/Shapes.h"
-#include <osg/io_utils>
+
+// osgUrdf headers
 #include "osgUrdf/osgUrdf.h"
-#include <osgViewer/CompositeViewer>
 
 #if 0
 int main( int argc, char** argv )
@@ -44,14 +50,14 @@ int main( int argc, char** argv )
 
 #else
 double totalAngle = .5; // radians
-double dAngle = 0.005; // radians
+double dAngle = 0.001; // radians
 
 void moveJoint(osgUrdf::Robot* robot, int i)
 {
   double angle = dAngle;
   osg::Matrix m;
   m = robot->getJoint(i)->getMatrix();
-  m.postMultRotate(osg::Quat(angle, robot->getJointAxis(i)));
+  m.preMultRotate(osg::Quat(angle, robot->getJointAxis(i)));
   robot->getJoint(i)->setMatrix(m);
 }
 
@@ -87,6 +93,14 @@ int main( int argc, char** argv )
 
   root->addChild(robot);
 
+  std::cout << "\nNum joints: " << robot->getNumJoints() << std::endl;
+  std::cout << "Num links : " << robot->getNumLinks() << std::endl;
+
+  // for (size_t i = 0; i < robot->getNumJoints(); ++i) {
+  //   std::cout << "Joint " << robot->getJoint(i)->getName() << "\n" << osgReviz::transpose(robot->getJoint(i)->getMatrix()) << std::endl;
+  //   std::cout << "  Axis " << robot->getJointAxis(i) << std::endl;
+  // }
+
   // add box to visualizer
   // osg::MatrixTransform* boxTf = new osg::MatrixTransform();
   // osg::Matrix boxPose;
@@ -99,20 +113,27 @@ int main( int argc, char** argv )
 
   robot->printChildren();
 
+  bool printTF = true;
   int cnt = 0;
   int joint = 0;
-
+  std::cout << "moving joint " << robot->getJoint(joint)->getName() << " now " << std::endl;
   while(!viewer->done()) {
     viewer->frame();
 
     if(joint < (int)robot->getNumJoints()) {
+      if(printTF) {
+        std::cout << robot->getJoint(joint)->getName() << "\n" << osgReviz::transpose(robot->getJoint(joint)->getMatrix()) << std::endl;
+        std::cout << "Axis: " << robot->getJointAxis(joint) << std::endl;
+        printTF = false;
+      }
       if(cnt < totalAngle/dAngle) {
         moveJoint(robot, joint);
         ++cnt;
       } else {
         ++joint;
         cnt = 0;
-        std::cout << "moving joint " << joint << " now " << std::endl;
+        std::cout << "moving " << robot->getJoint(joint)->getName() << " now " << std::endl;
+        printTF = true;
       }
     }
 

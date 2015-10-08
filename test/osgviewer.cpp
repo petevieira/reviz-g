@@ -43,10 +43,12 @@ int main( int argc, char** argv )
 }
 
 #else
+double totalAngle = .5; // radians
+double dAngle = 0.005; // radians
 
 void moveJoint(osgUrdf::Robot* robot, int i)
 {
-  double angle = .005;
+  double angle = dAngle;
   osg::Matrix m;
   m = robot->getJoint(i)->getMatrix();
   m.postMultRotate(osg::Quat(angle, robot->getJointAxis(i)));
@@ -104,7 +106,7 @@ int main( int argc, char** argv )
     viewer->frame();
 
     if(joint < (int)robot->getNumJoints()) {
-      if(cnt < 500) {
+      if(cnt < totalAngle/dAngle) {
         moveJoint(robot, joint);
         ++cnt;
       } else {

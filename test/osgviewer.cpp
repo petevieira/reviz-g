@@ -55,12 +55,20 @@ void moveJoint(osgUrdf::Robot* robot, int i)
 
 int main( int argc, char** argv )
 {
+  if (argc < 3) {
+    std::cerr << "Error. Incorrect Usage. See below...\n"
+              << "    Usage:   ./osgviewer <full_path_to_urdf_directory> <urdf_filename>\n"
+              << "    Example: ./osgviewer \"/home/user/urdf/robots/\" \"robot.urdf\""
+              << std::endl;
+   exit(-1);
+  }
+
   // get urdf path
   std::string filePath = std::string(argv[0]);
   // std::string curDir = filePath.substr(0, filePath.find_last_of("/"));
-  std::string curDir = "/home/pevieira/Downloads/ARMURDF_v2/robots/";
+  std::string curDir = argv[1];//"/home/pevieira/Downloads/ARMURDF_v2/robots/";
   std::string urdfDir = curDir;
-  std::string urdfName = "ARMURDF.urdf";
+  std::string urdfName = argv[2];//"ARMURDF.urdf";
 
   // create gui
   osg::Group* root = new osg::Group();
